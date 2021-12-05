@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "title": "Text of the first post",
+      "content": "Content of the first post",
+      "author": "John Doe"
+    },
+    {
+      "title": "Text of the second post",
+      "content": "Content of the second post",
+      "author": "Jane Doe"
+    },
+    {
+      "title": "Text of the third post",
+      "content": "Content of the third post",
+      "author": "John Doe"
+    },
+    {
+      "title": "Text of the fourth post",
+      "content": "Content of the fourth post",
+      "author": "Jane Doe"
+    },
+    {
+      "title": "Text of the fifth post",
+      "content": "Content of the fifth post",
+      "author": "John Doe"
+    },
+    {
+      "title": "Text of the sixth post",
+      "content": "Content of the sixth post",
+      "author": "Jane Doe"
+    }
+  ]
+}

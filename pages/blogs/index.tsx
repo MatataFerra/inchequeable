@@ -19,10 +19,10 @@ const Blogs: NextPage<Data> = ({ data }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (blogs.length > 0) {
+    if (blogs?.length > 0) {
       setLoading(false);
     }
-  }, [blogs.length]);
+  }, [blogs?.length]);
 
   return (
     <Grid padding={8} templateColumns={"repeat(2, 1fr)"} templateRows={"repeat(2, 1fr)"} rowGap={4}>
@@ -33,7 +33,7 @@ const Blogs: NextPage<Data> = ({ data }) => {
       </GridItem>
       <GridItem>
         <Text fontSize={48}> Lo inchequeable </Text>
-        <Stack spacing={3} padding={4} height={"70%"} width={500} overflowY={"scroll"}>
+        <Stack spacing={3} padding={4} height={"80%"} width={500} overflowY={"scroll"}>
           {!loading &&
             blogs?.map((blog: Card_Props, index: number) => {
               return (
@@ -43,6 +43,7 @@ const Blogs: NextPage<Data> = ({ data }) => {
                   author={blog.author}
                   subtitle={blog.subtitle}
                   id={blog._id}
+                  index={index}
                 />
               );
             })}

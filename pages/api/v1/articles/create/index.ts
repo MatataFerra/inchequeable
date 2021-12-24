@@ -45,8 +45,6 @@ export default validateJwt(async function getArticles(
     const oneArticle = await Article.findByIdAndUpdate(id, req.body);
 
     if (!oneArticle) {
-      disconnectDB();
-
       return res.status(404).json({
         message: "Article not found",
         ok: false,
@@ -61,9 +59,11 @@ export default validateJwt(async function getArticles(
     });
   }
 
-  return res.status(405).json({
-    ok: false,
-    message: "Method not allowed",
-    data: null,
-  });
+  if (req.method !== "POST" && req.method !== "PUT") {
+    return res.status(405).json({
+      message: "Method not allowed",
+      ok: false,
+      data: null,
+    });
+  }
 });

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { db, disconnectDB } from "../../../../mongo/client";
+import { db } from "../../../../mongo/client";
 import Article from "../../../models/Article";
 
 type JsonResponse = {
@@ -22,7 +22,6 @@ export default async function getArticles(req: NextApiRequest, res: NextApiRespo
       })
       .catch((error) => {
         console.log(error);
-        disconnectDB();
 
         return res.status(400).json({
           message: "Hubo un error a la hora de hacer la petición",

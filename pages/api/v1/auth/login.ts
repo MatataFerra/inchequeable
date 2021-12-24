@@ -23,17 +23,7 @@ export default async function login(req: NextApiRequest, res: NextApiResponse<Js
   }
 
   try {
-    const connection = db(process.env.MONGO_URI);
-
-    if (!connection) {
-      disconnectDB();
-
-      return res.status(500).json({
-        ok: false,
-        message: "Internal server error",
-        data: null,
-      });
-    }
+    db(process.env.MONGO_URI, res);
 
     const user = await User.findOne({ email: email });
     const validPassword = user && bcrypt.compareSync(password, user.password);
@@ -66,6 +56,8 @@ export default async function login(req: NextApiRequest, res: NextApiResponse<Js
 
     //Generar JWT
     const token = await generateJwt(user._id, user.username);
+
+    req.headers.authorization = `Bearer ${token}`;
 
     disconnectDB();
 

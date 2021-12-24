@@ -1,6 +1,14 @@
 import mongoose, { Schema } from "mongoose";
 
-const UserSchema = new Schema({
+type UserType = {
+  username: string;
+  email: string;
+  password: string;
+  admin: string;
+  is_admin: boolean;
+};
+
+const UserSchema = new Schema<UserType>({
   username: {
     type: String,
   },

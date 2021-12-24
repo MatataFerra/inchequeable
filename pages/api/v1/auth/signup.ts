@@ -25,19 +25,8 @@ export default async function login(req: NextApiRequest, res: NextApiResponse<Js
 
   try {
     const emailChecked = checkRegExp(email);
-    const connection = db(process.env.MONGO_URI);
 
-    if (!connection) {
-      console.log(connection);
-
-      disconnectDB();
-
-      return res.status(500).json({
-        ok: false,
-        message: "Internal server error",
-        data: null,
-      });
-    }
+    db(process.env.MONGO_URI, res);
 
     if (admin !== process.env.ADMIN) {
       disconnectDB();
@@ -63,8 +52,6 @@ export default async function login(req: NextApiRequest, res: NextApiResponse<Js
     if (usuario) {
       disconnectDB();
 
-      console.log({ usuario, connection });
-
       return res.status(400).json({
         ok: false,
         message: "Un usuario existe con ese correo",
@@ -86,6 +73,8 @@ export default async function login(req: NextApiRequest, res: NextApiResponse<Js
     const token = await generateJwt(newUser._id, newUser.username);
 
     await newUser.save();
+
+    req.headers.authorization = `${token}`;
 
     disconnectDB();
 

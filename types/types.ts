@@ -8,3 +8,5 @@ export interface Card_Props {
   title: string;
   _id: string | number;
 }
+
+export type stringOrNumber = string | number;

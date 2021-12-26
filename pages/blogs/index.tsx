@@ -2,9 +2,11 @@ import { Grid, GridItem, Stack, Text } from "@chakra-ui/react";
 import { NextPage, GetServerSideProps } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Card_Props } from "../../types/types";
+import { setArticles } from "../context/actions/articlesActions";
+import { ArticlesContext } from "../context/provider";
 
 import { Cards } from "./components/Cards";
 
@@ -16,13 +18,18 @@ interface Data {
 
 const Blogs: NextPage<Data> = ({ data }) => {
   const [blogs] = useState(data.data);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const { dispatch } = useContext(ArticlesContext);
 
   useEffect(() => {
     if (blogs?.length > 0) {
       setLoading(false);
     }
-  }, [blogs?.length]);
+  }, [blogs?.length, blogs]);
+
+  useEffect(() => {
+    dispatch(setArticles(blogs));
+  }, [blogs, dispatch]);
 
   return (
     <Grid padding={8} templateColumns={"repeat(2, 1fr)"} templateRows={"repeat(2, 1fr)"} rowGap={4}>

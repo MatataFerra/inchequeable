@@ -2,21 +2,40 @@ import { NextPage, GetStaticPaths, GetStaticProps } from "next";
 import { Box, Grid, GridItem, Link, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
+import { useContext, useEffect, useState } from "react";
 
 import { connectDBWithoutRes } from "../../mongo/client";
 import Article from "../models/Article";
 import { parseDate } from "../helpers/utils/dateFormatter";
+import { HeartIcon } from "../icons/Heart";
+import { ArticlesContext } from "../context/provider";
+import { stringOrNumber, Card_Props } from "../../types/types";
 
 interface Props {
   id: string;
+  _id: string | number;
   title: string;
   content: string;
   link: string;
   createdAt: string;
 }
 
-const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt }) => {
+const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, _id }) => {
   const router = useRouter();
+  const [heartClicked, setHeartClicked] = useState(false);
+  const [nextArticle, setNextArticle] = useState<Card_Props | undefined | stringOrNumber>(id);
+  const [colorHeart, setColorHeart] = useState("transparent");
+
+  const { state } = useContext(ArticlesContext);
+
+  useEffect(() => {
+    const i = state.articles.findIndex((article: Card_Props) => article._id === _id);
+    const initialArticle = state.articles[0]._id;
+    const nextArticleId = state.articles.at(i + 1);
+    const indexNextArticle = nextArticleId ? nextArticleId?._id : initialArticle;
+
+    setNextArticle(indexNextArticle);
+  }, [state.articles, id, _id]);
 
   if (router.isFallback) {
     return (
@@ -33,6 +52,18 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt }
       </Stack>
     );
   }
+
+  const handleHeart = () => {
+    if (!heartClicked) {
+      setColorHeart("red.500");
+
+      setHeartClicked(true);
+    } else {
+      setColorHeart("transparent");
+
+      setHeartClicked(false);
+    }
+  };
 
   const date = JSON?.parse(createdAt);
   const dateFormatted = parseDate(date);
@@ -53,7 +84,9 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt }
               <Box>
                 <NextLink href={"/blogs"}> Volver</NextLink>
               </Box>
-              <Box> próxima </Box>
+              <Box>
+                <NextLink href={`/article/${nextArticle}`}>próxima</NextLink>
+              </Box>
             </Stack>
             <Stack marginTop={4}>
               <Text fontSize={"2xl"}>{title}</Text>
@@ -66,10 +99,30 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt }
               <Text fontSize={12}> fecha de creación: {dateFormatted} </Text>
               <Stack
                 overflowY={"scroll"}
-                height={{ lg: "25rem", base: "30rem" }}
+                height={{ lg: "20rem", base: "30rem" }}
                 marginTop={"1.5rem !important"}
               >
                 <Text>{content}</Text>
+              </Stack>
+              <Stack
+                cursor={"pointer"}
+                width={"fit-content"}
+                onClick={handleHeart}
+                direction={"row"}
+                spacing={4}
+                alignItems={"center"}
+                marginTop={"1.5rem !important"}
+              >
+                <HeartIcon
+                  color={colorHeart}
+                  width={6}
+                  height={6}
+                  transition={"ease-in-out 0.2s color"}
+                />
+
+                <Text fontSize={12} fontWeight={"600"}>
+                  Dale tu Like (No hay otra opción)
+                </Text>
               </Stack>
             </Stack>
           </GridItem>
@@ -101,6 +154,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return {
       props: {
         id: true,
+        _id: id,
         title: article.title,
         content: article.content,
         link: article.link,

@@ -41,7 +41,7 @@ export const Cards: FC<Props> = ({ title, author, subtitle, id, index }) => {
           {subtitle}
         </Box>
         <Box fontStyle={"italic"} color={"secondary.500"} fontSize={12}>
-          {author}
+          creador/a: {author}
         </Box>
       </Stack>
     </Stack>

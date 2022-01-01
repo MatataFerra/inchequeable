@@ -59,8 +59,6 @@ export default async function login(req: NextApiRequest, res: NextApiResponse<Js
 
     req.headers.authorization = `Bearer ${token}`;
 
-    disconnectDB();
-
     res.status(200).json({
       message: "Usuario loggeado correctamente",
       ok: true,

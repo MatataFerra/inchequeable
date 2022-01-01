@@ -32,12 +32,12 @@ const Body: NextPage = () => {
 
       <Button
         variant="solid"
-        backgroundColor={"custom.salmon"}
+        backgroundColor={"buttons.200"}
         width="25%"
         className={styles.button}
         borderRadius={"200px"}
         transition={"ease-in 0.3s background-color"}
-        _hover={{ backgroundColor: "custom.salmonHover" }}
+        _hover={{ backgroundColor: "buttons.300" }}
         _focus={{ border: "none" }}
         onClick={handleBlogClick}
       >

@@ -10,3 +10,9 @@ export interface Card_Props {
 }
 
 export type stringOrNumber = string | number;
+
+export type DataResponse = {
+  ok: boolean;
+  message: string;
+  data: unknown;
+};

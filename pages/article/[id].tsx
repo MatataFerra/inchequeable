@@ -1,5 +1,5 @@
 import { NextPage, GetStaticPaths, GetStaticProps } from "next";
-import { Box, Grid, GridItem, Link, Skeleton, Stack, Text } from "@chakra-ui/react";
+import { Box, Grid, GridItem, Link, Stack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 import { useContext, useEffect, useState } from "react";
@@ -10,6 +10,8 @@ import { parseDate } from "../helpers/utils/dateFormatter";
 import { HeartIcon } from "../icons/Heart";
 import { ArticlesContext } from "../context/provider";
 import { stringOrNumber, Card_Props } from "../../types/types";
+
+import { SkelletonArticle } from "./components/SkelettonArticle";
 
 interface Props {
   id: string;
@@ -29,20 +31,20 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
   const { state } = useContext(ArticlesContext);
 
   useEffect(() => {
+    if (!state.articles) {
+      router.push("/blogs");
+    }
+
     const i = state.articles.findIndex((article: Card_Props) => article._id === _id);
-    const initialArticle = state.articles[0]._id;
+    const initialArticle = state.articles[0]?._id;
     const nextArticleId = state.articles.at(i + 1);
     const indexNextArticle = nextArticleId ? nextArticleId?._id : initialArticle;
 
     setNextArticle(indexNextArticle);
-  }, [state.articles, id, _id]);
+  }, [state.articles, id, _id, router]);
 
   if (router.isFallback) {
-    return (
-      <Stack>
-        <Skeleton height="20px" width={"50%"} />
-      </Stack>
-    );
+    return <SkelletonArticle />;
   }
 
   if (!id || id === null) {

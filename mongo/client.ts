@@ -7,13 +7,13 @@ export const db = async (uri: string, res: NextApiResponse) => {
   };
 
   try {
-    const connection = await mongoose.connect(uri, options);
-
     if (mongoose.connection.readyState === 1) {
       console.log("Already connected to database");
 
       return;
     }
+
+    const connection = await mongoose.connect(uri, options);
 
     if (connection) {
       console.log("MongoDB connected");
@@ -41,11 +41,9 @@ export const db = async (uri: string, res: NextApiResponse) => {
 
 export const disconnectDB = async () => {
   try {
-    await mongoose.disconnect();
+    await mongoose.connection.close();
 
     console.log("MongoDB disconnected");
-
-    return;
   } catch (error) {
     console.log(error);
 

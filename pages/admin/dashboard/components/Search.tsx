@@ -14,10 +14,6 @@ export const Search: FC = () => {
   };
 
   useEffect(() => {
-    console.log(articleFilter);
-  }, [articleFilter]);
-
-  useEffect(() => {
     dispatch(setFilter(articleFilter));
   }, [articleFilter, dispatch]);
 

@@ -16,3 +16,11 @@ export type DataResponse = {
   message: string;
   data: unknown;
 };
+
+export interface PropIcons {
+  color?: string;
+  size?: string;
+  width?: string | number;
+  height?: string | number;
+  transition?: string;
+}

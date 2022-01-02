@@ -39,7 +39,7 @@ export const generateJwt = (uid: string | number, name: string) => {
         payload,
         process.env.SECRET_KEY,
         {
-          expiresIn: "2h",
+          expiresIn: "1d",
         },
         (err, token) => {
           if (err) {

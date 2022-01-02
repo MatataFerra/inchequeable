@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { createContext, useContext } from "react";
+import { createContext } from "react";
 
 import { Card_Props } from "../../types/types";
 
@@ -14,15 +14,12 @@ export const ArticlesContext = createContext<ArticlesContent>({
   dispatch: () => {},
 });
 
-export const useGlobalContext = () => useContext(ArticlesContext);
+type FilterProps = {
+  state: { filterState: string };
+  dispatch: React.Dispatch<any>;
+};
 
-// import { createContext, useContext } from "react"
-// export type GlobalContent = {
-//   copy: string
-//   setCopy:(c: string) => void
-// }
-// export const MyGlobalContext = createContext<GlobalContent>({
-// copy: 'Hello World', // set a default value
-// setCopy: () => {},
-// })
-// export const useGlobalContext = () => useContext(MyGlobalContext)
+export const FilterContext = createContext<FilterProps>({
+  state: { filterState: "" },
+  dispatch: () => {},
+});

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { db, disconnectDB } from "../../../../../mongo/client";
+import { db } from "../../../../../mongo/client";
 import Article from "../../../../models/Article";
 import { validateJwt } from "../../../../helpers/auth/jwt";
 
@@ -27,8 +27,6 @@ export default validateJwt(async function getArticles(
     });
 
     newArticle.save().then((article: unknown) => {
-      disconnectDB();
-
       return res.status(200).json({
         message: "Article created",
         ok: true,

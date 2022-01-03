@@ -44,15 +44,17 @@ export const DashboardScreen: FC<Props> = ({ articles }) => {
         >
           {getArticles
             .filter((article) => {
-              return article.title.includes(state.filterState);
+              return article.title.toLowerCase().includes(state.filterState.toLowerCase());
             })
             .map((article: Card_Props, index: number) => {
               return (
                 <CardsAdmin
                   key={index}
+                  _id={article._id}
                   title={article.title}
                   author={article.author}
                   subtitle={article.subtitle}
+                  content={article.content}
                   order={index + 1}
                 />
               );

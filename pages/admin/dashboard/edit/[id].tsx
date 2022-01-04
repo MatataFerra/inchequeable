@@ -1,40 +1,57 @@
-import { Button, Grid, Input, Stack, Text, Textarea } from "@chakra-ui/react";
+import { Button, Grid, Input, Stack, Text, Textarea, useToast } from "@chakra-ui/react";
 import { getCookie } from "cookies-next";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 
 import { connectDBWithoutRes } from "../../../../mongo/client";
 import { parseDate } from "../../../helpers/utils/dateFormatter";
 import { fetchData } from "../../../helpers/utils/fetchData";
 import Article from "../../../models/Article";
 import { SideBar } from "../components/SideBar";
+import { SpinnerLoader } from "../components/Spinner";
 
 interface Props {
   id?: string;
   _id?: string | number;
   title?: string;
+  subtitle?: string;
   content?: string;
   link?: string;
   createdAt: string;
 }
 
-const EditOneArticle: NextPage<Props> = ({ id, title, content, link, createdAt }) => {
+const EditOneArticle: NextPage<Props> = ({ id, title, subtitle, content, link, createdAt }) => {
   const router = useRouter();
+  const toast = useToast();
   const [updateArticle, setUpdateArticle] = useState({
-    title: "",
-    content: "",
-    link: "",
+    title,
+    subtitle,
+    content,
+    link,
   });
 
+  useEffect(() => {
+    if (!title && !subtitle && !content && !link) {
+      toast({
+        title: "Recuperando información",
+        description: "Espere un momento mientras se recupera la información",
+        status: "info",
+        duration: 1500,
+        isClosable: true,
+        onCloseComplete: () => router.replace("/admin/dashboard"),
+      });
+    }
+  }, [title, subtitle, content, link, router, toast]);
+
   if (router.isFallback) {
-    return <Text>Loading...</Text>;
+    return <SpinnerLoader />;
   }
 
   if (!id || id === null) {
     return (
-      <Stack>
-        <Text>Article not found</Text>
+      <Stack alignItems={"center"} justifyContent={"center"} height={"100vh"}>
+        <Text fontSize={"2xl"}>Article not found</Text>
       </Stack>
     );
   }
@@ -57,18 +74,29 @@ const EditOneArticle: NextPage<Props> = ({ id, title, content, link, createdAt }
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        title: updateArticle.title,
-        content: updateArticle.content,
-        link: updateArticle.link,
-      }),
+      body: JSON.stringify(updateArticle),
     };
 
-    const response = await fetchData(`http://localhost:3000/api/v1/articles/create/${id}`, options);
+    const response = await fetchData(`http://localhost:3000/api/v1/articles/update/${id}`, options);
 
-    console.log("response", response);
-
-    // router.push("/admin/dashboard");
+    if (response.ok) {
+      toast({
+        title: "Artículo actualizado",
+        description: "Serás redireccionado a la página principal en 3 segundos",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        onCloseComplete: () => router.push("/admin/dashboard"),
+      });
+    } else {
+      toast({
+        title: "Error",
+        description: "No se pudo actualizar el artículo",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
   };
 
   const date = JSON?.parse(createdAt);
@@ -77,14 +105,23 @@ const EditOneArticle: NextPage<Props> = ({ id, title, content, link, createdAt }
   return (
     <Grid templateColumns={"auto 1fr"} gap={4}>
       <SideBar />
-      <Stack marginTop={4} padding={4}>
+      <Stack marginTop={4} padding={{ lg: "5rem 8rem", base: "1rem 1rem 1rem 0" }}>
         <Stack direction={"row"} alignItems={"center"}>
-          <Text>Title:</Text>
+          <Text>Título:</Text>
           <Input
-            fontSize={"2xl"}
             name="title"
             value={updateArticle.title}
-            placeholder={title}
+            width={"100%"}
+            type={"text"}
+            onChange={handleInputChange}
+          />
+        </Stack>
+
+        <Stack direction={"row"} alignItems={"center"}>
+          <Text>Subtitulo:</Text>
+          <Input
+            name="subtitle"
+            value={updateArticle.subtitle}
             width={"100%"}
             type={"text"}
             onChange={handleInputChange}
@@ -95,7 +132,6 @@ const EditOneArticle: NextPage<Props> = ({ id, title, content, link, createdAt }
           <Input
             fontSize={12}
             value={updateArticle.link}
-            placeholder={link}
             name="link"
             color={"secondary.500"}
             width={"100%"}
@@ -110,10 +146,11 @@ const EditOneArticle: NextPage<Props> = ({ id, title, content, link, createdAt }
           marginTop={"1.5rem !important"}
         >
           <Textarea
-            minHeight={"20rem"}
+            minHeight={"10rem"}
+            height={"15rem"}
+            marginBottom={"1rem !important"}
             resize={"none"}
             name="content"
-            placeholder={content}
             value={updateArticle.content}
             onChange={handleInputChange}
           />
@@ -153,6 +190,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         id: true,
         _id: id,
         title: article.title,
+        subtitle: article.subtitle,
         content: article.content,
         link: article.link,
         createdAt: JSON.stringify(article.createdAt),

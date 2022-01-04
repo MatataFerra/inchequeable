@@ -21,7 +21,7 @@ interface Props {
 
 const Dashboard: NextPage<Props> = ({ token, data }) => {
   const [loading, setLoading] = useState<boolean>(true);
-  const blogs = useArticles(data.data);
+  const blogs = useArticles(data?.data);
   const router = useRouter();
   const [state, dispatch] = useReducer(filterReducer, initialFilterState);
 

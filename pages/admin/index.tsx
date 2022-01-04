@@ -1,12 +1,11 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-import Title from "../components/Title";
-import styles from "../../styles/Home.module.css";
 import { getCookieAndValidateToken } from "../helpers/auth/cookies";
 
-import { Login } from "./components/Login";
+import { SpinnerLoader } from "./dashboard/components/Spinner";
+import { LoginPage } from "./dashboard/components/LoginPage";
 
 interface Props {
   token?: boolean;
@@ -14,19 +13,17 @@ interface Props {
 
 const AdminPage: NextPage<Props> = ({ token }) => {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (token) {
       router.replace("/admin/dashboard");
+    } else {
+      setLoading(false);
     }
   }, [token, router]);
 
-  return (
-    <main className={styles.main}>
-      <Title />
-      <Login />
-    </main>
-  );
+  return loading ? <SpinnerLoader /> : <LoginPage />;
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {

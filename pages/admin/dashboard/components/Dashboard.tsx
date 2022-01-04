@@ -22,7 +22,7 @@ export const DashboardScreen: FC<Props> = ({ articles }) => {
   return (
     <Grid templateColumns={"auto 1fr"} gap={4}>
       <SideBar />
-      <Stack padding={4} spacing={4}>
+      <Stack padding={4} spacing={4} height={"100vh"}>
         <HStack
           height={"fit-content"}
           spacing={4}

@@ -49,8 +49,8 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
 
   if (!id || id === null) {
     return (
-      <Stack>
-        <Text>Article not found</Text>
+      <Stack alignItems={"center"} justifyContent={"center"} height={"100vh"}>
+        <Text fontSize={"2xl"}>Article not found</Text>
       </Stack>
     );
   }

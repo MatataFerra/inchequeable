@@ -1,4 +1,4 @@
-import { Grid, HStack, Stack, Text } from "@chakra-ui/react";
+import { Container, Grid, HStack, Stack, Text } from "@chakra-ui/react";
 import { FC, useContext } from "react";
 import Image from "next/image";
 
@@ -9,6 +9,7 @@ import { FilterContext } from "../../../context/provider";
 import { SideBar } from "./SideBar";
 import { CardsAdmin } from "./CardsAdmin";
 import { Search } from "./Search";
+import { DeleteAllButton } from "./DeleteAllButton";
 
 interface Props {
   articles: Array<Card_Props>;
@@ -19,10 +20,12 @@ export const DashboardScreen: FC<Props> = ({ articles }) => {
 
   const { state } = useContext(FilterContext);
 
+  const widthOfArticlesContainer: string = getArticles.length === 0 ? "100%" : "80%";
+
   return (
     <Grid templateColumns={"auto 1fr"} gap={4}>
       <SideBar />
-      <Stack padding={4} spacing={4} height={"100vh"}>
+      <Stack padding={{ base: "0 1rem 0 0", lg: 4 }} spacing={4} height={"100vh"}>
         <HStack
           height={"fit-content"}
           spacing={4}
@@ -35,30 +38,37 @@ export const DashboardScreen: FC<Props> = ({ articles }) => {
           <Image src={"/bottle.svg"} alt="Botella" width={70} height={70} />
         </HStack>
         <Search />
+        <DeleteAllButton articlesLen={getArticles.length} />
         <Stack
           spacing={3}
-          padding={4}
+          padding={{ lg: 0, sm: 4 }}
           height={"80%"}
-          width={{ lg: "80%", sm: "100%" }}
+          width={{ lg: widthOfArticlesContainer, sm: "100%" }}
           overflowY={"scroll"}
         >
-          {getArticles
-            .filter((article) => {
-              return article.title.toLowerCase().includes(state.filterState.toLowerCase());
-            })
-            .map((article: Card_Props, index: number) => {
-              return (
-                <CardsAdmin
-                  key={index}
-                  _id={article._id}
-                  title={article.title}
-                  author={article.author}
-                  subtitle={article.subtitle}
-                  content={article.content}
-                  order={index + 1}
-                />
-              );
-            })}
+          {getArticles.length > 0 ? (
+            getArticles
+              .filter((article) => {
+                return article.title.toLowerCase().includes(state.filterState.toLowerCase());
+              })
+              .map((article: Card_Props, index: number) => {
+                return (
+                  <CardsAdmin
+                    key={index}
+                    _id={article._id}
+                    title={article.title}
+                    author={article.author}
+                    subtitle={article.subtitle}
+                    content={article.content}
+                    order={index + 1}
+                  />
+                );
+              })
+          ) : (
+            <Container fontSize={32} display={"grid"} placeContent={"center"} height={"100%"}>
+              No hay artículos cargados...
+            </Container>
+          )}
         </Stack>
       </Stack>
     </Grid>

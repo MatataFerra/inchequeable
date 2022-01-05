@@ -3,6 +3,7 @@ import { Box, Grid, GridItem, Link, Stack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 import { useContext, useEffect, useState } from "react";
+import reactStringReplace from "react-string-replace";
 
 import { connectDBWithoutRes } from "../../mongo/client";
 import Article from "../models/Article";
@@ -25,10 +26,17 @@ interface Props {
 const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, _id }) => {
   const router = useRouter();
   const [heartClicked, setHeartClicked] = useState(false);
+  const [contentBr, setContentBr] = useState("");
   const [nextArticle, setNextArticle] = useState<Card_Props | undefined | stringOrNumber>(id);
   const [colorHeart, setColorHeart] = useState("transparent");
 
   const { state } = useContext(ArticlesContext);
+
+  useEffect(() => {
+    const paresedContent = content?.replace(/\n/g, "<br/>");
+
+    setContentBr(paresedContent);
+  }, [content]);
 
   useEffect(() => {
     if (!state.articles) {
@@ -104,7 +112,11 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
                 height={{ lg: "20rem", base: "30rem" }}
                 marginTop={"1.5rem !important"}
               >
-                <Text>{content}</Text>
+                <Text>
+                  {reactStringReplace(contentBr, "<br/>", (match, i) => (
+                    <br key={i} />
+                  ))}
+                </Text>
               </Stack>
               <Stack
                 cursor={"pointer"}

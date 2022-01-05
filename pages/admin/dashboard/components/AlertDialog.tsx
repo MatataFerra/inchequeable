@@ -7,6 +7,7 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   Button,
+  AlertDialogHeader,
 } from "@chakra-ui/react";
 import { WarningIcon } from "@chakra-ui/icons";
 
@@ -47,10 +48,9 @@ export const AlertDialogComponent: FC<Props> = ({
     <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={handleAlertClose}>
       <AlertDialogOverlay>
         <AlertDialogContent>
-          {/* <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Borrar artículo
-          </AlertDialogHeader> */}
-
+          <AlertDialogHeader display={"flex"} justifyContent={"center"}>
+            <WarningIcon width={20} height={20} color={"red.500"} />
+          </AlertDialogHeader>
           <AlertDialogBody
             color="buttons.500"
             padding={4}
@@ -58,9 +58,9 @@ export const AlertDialogComponent: FC<Props> = ({
             flexDirection={"column"}
             justifyContent={"center"}
             alignItems={"center"}
+            textAlign={"center"}
           >
-            <WarningIcon width={50} height={50} marginBottom={4} />
-            ¿Estás seguro que deseas borrar el artículo?
+            ¿Estás Segurola y la habana que querés borrar esta nota inchequeable?
           </AlertDialogBody>
 
           <AlertDialogFooter>

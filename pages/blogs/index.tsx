@@ -40,7 +40,7 @@ const Blogs: NextPage<Data> = ({ data }) => {
       </GridItem>
       <GridItem>
         <Text fontSize={48}> Lo inchequeable </Text>
-        <Stack spacing={3} padding={4} height={"45%"} width={500} overflowY={"scroll"}>
+        <Stack spacing={3} padding={4} height={"80%"} width={500} overflowY={"scroll"}>
           {!loading &&
             blogs?.map((blog: Card_Props, index: number) => {
               return (

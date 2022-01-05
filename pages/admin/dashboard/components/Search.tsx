@@ -22,7 +22,7 @@ export const Search: FC = () => {
       <Stack
         direction={"row"}
         alignItems={"center"}
-        padding={4}
+        padding={{ lg: 0, sm: 4 }}
         spacing={4}
         width={{ lg: "50%", sm: "100%" }}
       >

@@ -18,7 +18,7 @@ export const CardsAdmin: FC<Props> = ({ order, title, subtitle, author, content,
 
   return (
     <Stack
-      padding={2}
+      padding={{ lg: "0.5rem", sm: 2 }}
       direction={"row"}
       boxShadow={"0 10px 25px rgba(63, 19, 19, 0.1)"}
       alignItems={"baseline"}

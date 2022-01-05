@@ -23,12 +23,13 @@ export default validateJwt(async function getArticles(
   }
 
   if (req.method === "POST") {
-    const { title, content, author, link } = req.body;
+    const { title, subtitle, content, author, link } = req.body;
 
     db(process.env.MONGO_URI, res);
 
     const newArticle = new Article({
       title,
+      subtitle,
       content,
       author,
       link,

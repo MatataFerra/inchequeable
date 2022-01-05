@@ -4,6 +4,7 @@ export default extendTheme({
   colors: {
     primary: theme.colors.gray,
     secondary: theme.colors.blue,
+    error: theme.colors.red,
 
     buttons: {
       50: "#ffe2ec",

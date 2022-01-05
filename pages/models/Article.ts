@@ -8,7 +8,6 @@ const ArticleSchema = new Schema({
 
   subtitle: {
     type: String,
-    default: "No te pierdas este artículo",
   },
 
   content: {

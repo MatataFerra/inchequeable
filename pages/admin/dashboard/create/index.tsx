@@ -1,35 +1,23 @@
 import { Button, Grid, Input, Stack, Text, Textarea, useToast } from "@chakra-ui/react";
 import { getCookie } from "cookies-next";
-import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState, ChangeEvent, useEffect } from "react";
 
-import { connectDBWithoutRes } from "../../../../mongo/client";
 import { getCookieAndValidateOnClientToken } from "../../../helpers/auth/cookies";
-import { parseDate } from "../../../helpers/utils/dateFormatter";
 import { fetchData } from "../../../helpers/utils/fetchData";
-import Article from "../../../models/Article";
 import { SideBar } from "../components/SideBar";
 import { SpinnerLoader } from "../components/Spinner";
 
-interface Props {
-  id?: string;
-  _id?: string | number;
-  title?: string;
-  subtitle?: string;
-  content?: string;
-  link?: string;
-  createdAt: string;
-}
-
-const EditOneArticle: NextPage<Props> = ({ id, title, subtitle, content, link, createdAt }) => {
+const CreateArticle: NextPage = () => {
   const router = useRouter();
   const toast = useToast();
   const [updateArticle, setUpdateArticle] = useState({
-    title,
-    subtitle,
-    content,
-    link,
+    title: "",
+    subtitle: "",
+    content: "",
+    link: "",
+    author: "",
   });
 
   useEffect(() => {
@@ -60,29 +48,8 @@ const EditOneArticle: NextPage<Props> = ({ id, title, subtitle, content, link, c
       });
   }, [router, toast]);
 
-  useEffect(() => {
-    if (!title && !subtitle && !content && !link) {
-      toast({
-        title: "Recuperando información",
-        description: "Espere un momento mientras se recupera la información",
-        status: "info",
-        duration: 1500,
-        isClosable: true,
-        onCloseComplete: () => router.replace("/admin/dashboard"),
-      });
-    }
-  }, [title, subtitle, content, link, router, toast]);
-
   if (router.isFallback) {
     return <SpinnerLoader />;
-  }
-
-  if (!id || id === null) {
-    return (
-      <Stack alignItems={"center"} justifyContent={"center"} height={"100vh"}>
-        <Text fontSize={"2xl"}>Article not found</Text>
-      </Stack>
-    );
   }
 
   const handleInputChange = (
@@ -94,11 +61,10 @@ const EditOneArticle: NextPage<Props> = ({ id, title, subtitle, content, link, c
   };
 
   const handleUpdate = async () => {
-    const id = router.query.id as string;
     const token = getCookie("token");
 
     const options = {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -106,11 +72,11 @@ const EditOneArticle: NextPage<Props> = ({ id, title, subtitle, content, link, c
       body: JSON.stringify(updateArticle),
     };
 
-    const response = await fetchData(`http://localhost:3000/api/v1/articles/update/${id}`, options);
+    const response = await fetchData(`http://localhost:3000/api/v1/articles/create`, options);
 
     if (response.ok) {
       toast({
-        title: "Artículo actualizado",
+        title: "Artículo creado",
         description: "Serás redireccionado a la página principal en 3 segundos",
         status: "success",
         duration: 3000,
@@ -122,14 +88,11 @@ const EditOneArticle: NextPage<Props> = ({ id, title, subtitle, content, link, c
         title: "Error",
         description: "No se pudo actualizar el artículo",
         status: "error",
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
       });
     }
   };
-
-  const date = JSON?.parse(createdAt);
-  const dateFormatted = parseDate(date);
 
   return (
     <Grid templateColumns={"auto 1fr"} gap={4}>
@@ -168,7 +131,19 @@ const EditOneArticle: NextPage<Props> = ({ id, title, subtitle, content, link, c
             onChange={handleInputChange}
           />
         </Stack>
-        <Text fontSize={12}> fecha de creación: {dateFormatted} </Text>
+
+        <Stack direction={"row"} alignItems={"center"}>
+          <Text fontSize={12}>autor:</Text>
+          <Input
+            fontSize={12}
+            value={updateArticle.author}
+            name="author"
+            color={"buttons.500"}
+            width={"100%"}
+            type={"text"}
+            onChange={handleInputChange}
+          />
+        </Stack>
         <Stack
           overflowY={"scroll"}
           height={{ lg: "20rem", base: "30rem" }}
@@ -187,7 +162,7 @@ const EditOneArticle: NextPage<Props> = ({ id, title, subtitle, content, link, c
 
         <Stack>
           <Button minWidth={"7rem"} width={"10rem"} onClick={handleUpdate}>
-            Actualizar
+            Crear
           </Button>
         </Stack>
       </Stack>
@@ -195,45 +170,4 @@ const EditOneArticle: NextPage<Props> = ({ id, title, subtitle, content, link, c
   );
 };
 
-export const getStaticPaths: GetStaticPaths = () => {
-  return {
-    paths: [{ params: { id: "1" } }],
-    fallback: true,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  connectDBWithoutRes(process.env.MONGO_URI);
-
-  try {
-    const id: string | unknown = params?.id?.toString();
-    const article = await Article.findById(id);
-
-    if (!article) {
-      return { props: { id: null } };
-    }
-
-    return {
-      props: {
-        id: true,
-        _id: id,
-        title: article.title,
-        subtitle: article.subtitle,
-        content: article.content,
-        link: article.link,
-        createdAt: JSON.stringify(article.createdAt),
-      },
-    };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any | unknown | never) {
-    console.log("Ocurrio un error", error.message);
-
-    return {
-      props: {
-        id: null,
-      },
-    };
-  }
-};
-
-export default EditOneArticle;
+export default CreateArticle;

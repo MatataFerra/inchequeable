@@ -12,3 +12,11 @@ export const getCookieAndValidateToken = async (options: any) => {
 
   return result;
 };
+
+export const getCookieAndValidateOnClientToken = async (options: any) => {
+  const getTokenOnCookie = getCookie("token", options) as string;
+
+  const result = await validateClientJwt(getTokenOnCookie);
+
+  return result;
+};

@@ -44,6 +44,10 @@ export const CardContent: FC<Props> = ({
     setIsOpen(false);
   };
 
+  const handleAlertOpen = () => {
+    setIsOpen(true);
+  };
+
   const handleDeleteArticle = async () => {
     if (wantDeleteArticle) {
       const token = getCookie("token");
@@ -63,6 +67,7 @@ export const CardContent: FC<Props> = ({
         );
 
         if (deleteArticle.ok) {
+          setWantDeleteArticle(false);
           toast({
             title: "Artículo eliminado",
             description: "El artículo ha sido eliminado correctamente",
@@ -83,8 +88,6 @@ export const CardContent: FC<Props> = ({
           isClosable: true,
         });
       }
-    } else {
-      setIsOpen(true);
     }
   };
 
@@ -98,7 +101,7 @@ export const CardContent: FC<Props> = ({
           <>
             <HStack spacing={2}>
               <Tooltip label="Eliminar">
-                <DeleteIcon cursor={"pointer"} onClick={handleDeleteArticle} />
+                <DeleteIcon cursor={"pointer"} onClick={handleAlertOpen} />
               </Tooltip>
               <Tooltip label="Editar">
                 <EditIcon cursor={"pointer"} onClick={handleEditArticle} />
@@ -110,6 +113,7 @@ export const CardContent: FC<Props> = ({
               handleAlertClose={handleAlertClose}
               setWantDeleteArticle={setWantDeleteArticle}
               wantDeleteArticle={wantDeleteArticle}
+              handleDeleteArticle={handleDeleteArticle}
             />
           </>
         )}

@@ -14,6 +14,10 @@ export const SideBar: FC = () => {
     router.replace("/admin/dashboard");
   };
 
+  const handleCreate = () => {
+    router.push("/admin/dashboard/create");
+  };
+
   const handleLogout = () => {
     removeCookies("token");
 
@@ -38,7 +42,12 @@ export const SideBar: FC = () => {
       <Stack spacing={8}>
         <HamburgerIcon width={iconMeasure} height={iconMeasure} />
         <Tooltip hasArrow label="Crear artículo" placement="right" bg="gray.300" color="black">
-          <AddIcon cursor={"pointer"} width={iconMeasure} height={iconMeasure} />
+          <AddIcon
+            cursor={"pointer"}
+            width={iconMeasure}
+            height={iconMeasure}
+            onClick={handleCreate}
+          />
         </Tooltip>
         <Tooltip hasArrow label="Volver atrás" placement="right" bg="gray.300" color="black">
           <ArrowBackIcon

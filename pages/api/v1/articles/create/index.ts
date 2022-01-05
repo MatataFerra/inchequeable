@@ -34,7 +34,7 @@ export default validateJwt(async function getArticles(
       link,
     });
 
-    newArticle.save().then((article: unknown) => {
+    await newArticle.save().then((article: unknown) => {
       return res.status(200).json({
         message: "Article created",
         ok: true,

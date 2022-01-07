@@ -53,6 +53,7 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
   }, [dispatch, state.articles.length]);
 
   useEffect(() => {
+    setUserLikedArticle(false);
     getAllUsersIp().then((res) => {
       const data: [] = res.data;
 
@@ -65,10 +66,10 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
   }, [ipv4, _id]);
 
   useEffect(() => {
-    console.log({ userLikedArticle });
-
     if (userLikedArticle) {
       setColorHeart("red.500");
+    } else {
+      setColorHeart("transparent");
     }
   }, [userLikedArticle]);
 

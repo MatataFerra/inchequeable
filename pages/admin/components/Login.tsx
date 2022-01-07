@@ -49,12 +49,19 @@ export const Login: FC = () => {
   };
 
   return (
-    <Stack gridColumnStart={6} gridColumnEnd={8} gridRowStart={2} spacing={6}>
+    <Stack
+      gridColumnStart={6}
+      gridColumnEnd={8}
+      gridRowStart={2}
+      spacing={6}
+      width={{ lg: "auto", md: "70%" }}
+      margin={"0 auto"}
+    >
       <Box>
-        <Text fontSize={28} textAlign={"end"}>
+        <Text fontSize={{ lg: 28, md: 16 }} textAlign={{ lg: "end", md: "start" }}>
           ¿Sos Dios? ¿Sos admin?
         </Text>
-        <Text fontSize={28} textAlign={"end"}>
+        <Text fontSize={{ lg: 28, md: 16 }} textAlign={{ lg: "end", md: "start" }}>
           ¿está chequeado?
         </Text>
       </Box>

@@ -1,4 +1,4 @@
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Stack, Text } from "@chakra-ui/react";
 import { MouseEvent, MouseEventHandler } from "react";
 import { useRouter } from "next/router";
 import { FC } from "react";
@@ -31,18 +31,29 @@ export const Cards: FC<Props> = ({ title, author, subtitle, id, index }) => {
       direction={"row"}
       boxShadow={"0 10px 25px rgba(63, 19, 19, 0.1)"}
       cursor={"pointer"}
+      backgroundColor={`rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
+        Math.random() * 255,
+      )}, ${Math.floor(Math.random() * 255)}, 0.4)`}
     >
       <Text> {order}. </Text>
       <Stack spacing={4}>
-        <Box fontSize={16} textTransform={"capitalize"}>
+        <Text whiteSpace={"break-spaces"} fontSize={18} textTransform={"capitalize"}>
           {title}
-        </Box>
-        <Box fontSize={12} fontStyle={"italic"}>
+        </Text>
+        <Text
+          whiteSpace={"break-spaces"}
+          fontSize={12}
+          fontStyle={"italic"}
+          fontWeight={{ lg: 400, base: 800 }}
+        >
           {subtitle}
-        </Box>
-        <Box fontStyle={"italic"} color={"secondary.500"} fontSize={12}>
-          creador/a: {author}
-        </Box>
+        </Text>
+        <Text fontStyle={"italic"} color={"secondary.500"} fontSize={12} fontWeight={"700"}>
+          creador/a:
+          <Text as="span" color={"#1b1b1b"} fontWeight={"900"} ml={2}>
+            {author.length > 0 ? author : "Anónimo"}
+          </Text>
+        </Text>
       </Stack>
     </Stack>
   );

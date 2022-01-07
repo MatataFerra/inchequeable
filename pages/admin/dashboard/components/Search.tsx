@@ -19,13 +19,7 @@ export const Search: FC = () => {
 
   return (
     <>
-      <Stack
-        direction={"row"}
-        alignItems={"center"}
-        padding={{ lg: 0, sm: 4 }}
-        spacing={4}
-        width={{ lg: "50%", sm: "100%" }}
-      >
+      <Stack direction={"row"} alignItems={"center"} spacing={4} width={{ lg: "70%", sm: "100%" }}>
         <Input
           type={"text"}
           _placeholder={{ color: "gray.500" }}

@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 
-import styles from "../styles/Home.module.css";
+import styles from "../styles/home.module.scss";
 
 import Body from "./components/Body";
 import Title from "./components/Title";

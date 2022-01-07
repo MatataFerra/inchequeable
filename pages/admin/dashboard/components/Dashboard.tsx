@@ -20,32 +20,19 @@ export const DashboardScreen: FC<Props> = ({ articles }) => {
 
   const { state } = useContext(FilterContext);
 
-  const widthOfArticlesContainer: string = getArticles.length === 0 ? "100%" : "80%";
-
   return (
-    <Grid templateColumns={"auto 1fr"} gap={4}>
+    <Grid templateColumns={"auto 1fr"}>
       <SideBar />
-      <Stack padding={{ base: "0 1rem 0 0", lg: 4 }} spacing={4} height={"100vh"}>
-        <HStack
-          height={"fit-content"}
-          spacing={4}
-          justifyContent={{ lg: "normal", sm: "space-between" }}
-          padding={{ lg: 0, sm: 4 }}
-        >
-          <Text fontSize={42} fontStyle={"italic"}>
+      <Stack spacing={4} height={"100vh"} padding={8}>
+        <HStack spacing={4} width={"fit-content"}>
+          <Text fontSize={36} fontStyle={"italic"}>
             Hola Dios Admin
           </Text>
           <Image src={"/bottle.svg"} alt="Botella" width={70} height={70} />
         </HStack>
         <Search />
         <DeleteAllButton articlesLen={getArticles.length} />
-        <Stack
-          spacing={3}
-          padding={{ lg: 0, sm: 4 }}
-          height={"80%"}
-          width={{ lg: widthOfArticlesContainer, sm: "100%" }}
-          overflowY={"scroll"}
-        >
+        <Stack spacing={3} height={"80%"} overflowY={"scroll"}>
           {getArticles.length > 0 ? (
             getArticles
               .filter((article) => {

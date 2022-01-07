@@ -32,15 +32,27 @@ const Blogs: NextPage<Data> = ({ data }) => {
   }, [blogs, dispatch]);
 
   return (
-    <Grid padding={8} templateColumns={"repeat(2, 1fr)"} templateRows={"repeat(2, 1fr)"} rowGap={4}>
-      <GridItem colStart={2} zIndex={999} rowStart={1} justifySelf={"end"}>
+    <Grid
+      padding={8}
+      templateColumns={{ lg: "repeat(2, 1fr)", md: "1fr" }}
+      templateRows={{ lg: "repeat(2, 1fr)", md: "1fr" }}
+      rowGap={4}
+      height={"100vh"}
+    >
+      <GridItem colStart={{ lg: 2, base: 1 }} zIndex={9999} rowStart={1} justifySelf={"end"}>
         <Link href="/">
           <a style={{ fontStyle: "italic" }}>Volver</a>
         </Link>
       </GridItem>
-      <GridItem>
+      <GridItem colStart={1} rowStart={1} zIndex={999}>
         <Text fontSize={48}> Lo inchequeable </Text>
-        <Stack spacing={3} padding={4} height={"80%"} width={500} overflowY={"scroll"}>
+        <Stack
+          spacing={3}
+          padding={4}
+          height={"80%"}
+          width={{ lg: 700, md: "100%" }}
+          overflowY={"scroll"}
+        >
           {!loading &&
             blogs?.map((blog: Card_Props, index: number) => {
               return (
@@ -56,7 +68,14 @@ const Blogs: NextPage<Data> = ({ data }) => {
             })}
         </Stack>
       </GridItem>
-      <GridItem colStart={2} rowStart={1} rowEnd={3} filter={"opacity(0.5)"}>
+      <GridItem
+        colStart={{ lg: 2, md: 1, base: 1 }}
+        rowStart={1}
+        rowEnd={{ lg: 2, md: 1, base: 1 }}
+        filter={"opacity(0.2)"}
+        display={"flex"}
+        justifyContent={"center"}
+      >
         <Image src="/typing.svg" alt="typing something" width={600} height={600} />
       </GridItem>
     </Grid>

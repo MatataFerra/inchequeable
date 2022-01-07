@@ -1,28 +1,21 @@
 import { Stack, Text } from "@chakra-ui/react";
 import type { NextPage } from "next";
 
+import styles from "../../styles/home.module.scss";
+
 const Title: NextPage = () => {
   return (
     <Stack
-      height={"10rem"}
-      direction={"row"}
+      height={{ lg: "10rem", md: "auto" }}
       justifyContent={"center"}
       position={"relative"}
-      gridColumn={"2 / 4"}
+      className={styles.homeTitle}
+      padding={4}
     >
-      <Text
-        fontSize={78}
-        as="h1"
-        fontWeight={100}
-        fontStyle={"italic"}
-        textTransform={"uppercase"}
-        position={"absolute"}
-        top={"30%"}
-        left={"15%"}
-      >
+      <Text as="h1" className={styles.homeTitleText}>
         Inchequeable.com.ar
       </Text>
-      <Text position={"absolute"} top={"95%"} left={"15%"} color={"secondary.600"}>
+      <Text color={"secondary.600"} className={styles.homeTitleSubtitle}>
         andá a saber de dónde salió...
       </Text>
     </Stack>

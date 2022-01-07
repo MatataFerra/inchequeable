@@ -1,5 +1,5 @@
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { Box, Button, Divider, HStack, Stack, Text, Tooltip, useToast } from "@chakra-ui/react";
+import { Button, Divider, HStack, Stack, Text, Tooltip, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import { getCookie } from "cookies-next";
@@ -92,9 +92,14 @@ export const CardContent: FC<Props> = ({
   };
 
   return (
-    <Stack spacing={2} width={"100%"} height={"100%"}>
+    <Stack spacing={2} width={"100%"} height={"100%"} padding={"0.5rem"}>
       <Stack direction={"row"} justifyContent={"space-between"}>
-        <Text isTruncated fontSize={20} color="buttons.400">
+        <Text
+          isTruncated
+          whiteSpace={"break-spaces"}
+          fontSize={{ lg: 20, sm: 16 }}
+          color="buttons.400"
+        >
           {title}
         </Text>
         {withIcons && (
@@ -118,29 +123,29 @@ export const CardContent: FC<Props> = ({
           </>
         )}
       </Stack>
-      <Box fontSize={12} fontStyle={"italic"}>
+      <Text isTruncated fontSize={12} fontStyle={"italic"} whiteSpace={"break-spaces"}>
         {subtitle}
-      </Box>
+      </Text>
 
       {withModal ? (
         <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
-          <Box fontStyle={"italic"} color={"secondary.500"} fontSize={12}>
+          <Text isTruncated fontStyle={"italic"} color={"secondary.500"} fontSize={12}>
             creador/a: {author}
-          </Box>
+          </Text>
 
           <Button onClick={onOpenModal} size="sm">
             Ver más
           </Button>
         </Stack>
       ) : (
-        <Box fontStyle={"italic"} color={"secondary.500"} fontSize={12}>
+        <Text isTruncated fontStyle={"italic"} color={"secondary.500"} fontSize={12}>
           creador/a: {author}
-        </Box>
+        </Text>
       )}
 
       {withContent && (
         <Stack fontSize={14} padding={4} overflowY={"scroll"} minHeight={"100%"} height={"15rem"}>
-          <Divider /> <Box>{content}</Box>
+          <Divider /> <Text noOfLines={8}>{content}</Text>
         </Stack>
       )}
     </Stack>

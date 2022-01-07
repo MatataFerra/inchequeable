@@ -54,17 +54,11 @@ export const DeleteAllButton: FC<Props> = ({ articlesLen }) => {
   };
 
   return (
-    <Stack
-      alignItems={{ base: "flex-start", lg: "flex-end" }}
-      width={"80%"}
-      padding={{ lg: "0.5rem", sm: 0 }}
-    >
+    <Stack alignItems={"flex-end"} width={{ lg: "70%", sm: "100%" }}>
       <Box>
         <Button
           colorScheme={"error"}
           size={"sm"}
-          marginRight={{ lg: 0, sm: 8 }}
-          marginBottom={{ lg: 0, sm: 8 }}
           disabled={articlesLen === 0}
           onClick={handleDeleteAll}
         >

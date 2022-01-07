@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { db } from "../../../../../mongo/client";
-import Article from "../../../../models/Article";
-import { validateJwt } from "../../../../helpers/auth/jwt";
+import IpUsers from "../../../../models/IpUsers";
 
 type JsonResponse = {
   ok: boolean;
@@ -10,7 +9,7 @@ type JsonResponse = {
   data: unknown;
 };
 
-export default validateJwt(async function createArticles(
+export default async function createIpUser(
   req: NextApiRequest,
   res: NextApiResponse<JsonResponse>,
 ) {
@@ -23,24 +22,23 @@ export default validateJwt(async function createArticles(
   }
 
   if (req.method === "POST") {
-    const { title, subtitle, content, author, link } = req.body;
+    const { ipv4, country, region, article } = req.body;
 
     db(process.env.MONGO_URI, res);
 
-    const newArticle = new Article({
-      title,
-      subtitle,
-      content,
-      author,
-      link,
+    const ipRegister = new IpUsers({
+      ipv4,
+      country,
+      region,
+      article,
     });
 
-    await newArticle.save().then((article: unknown) => {
+    await ipRegister.save().then((ipUser: unknown) => {
       return res.status(200).json({
-        message: "Article created",
+        message: "Ip register succefully",
         ok: true,
-        data: article,
+        data: ipUser,
       });
     });
   }
-});
+}

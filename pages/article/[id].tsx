@@ -11,6 +11,10 @@ import { parseDate } from "../helpers/utils/dateFormatter";
 import { HeartIcon } from "../icons/Heart";
 import { ArticlesContext } from "../context/provider";
 import { stringOrNumber, Card_Props } from "../../types/types";
+import { fetchData } from "../helpers/utils/fetchData";
+import { useIpUser } from "../hooks/useIpUser";
+import { getAllUsersIp, userHasBeenLided } from "../helpers/utils/likedArticle";
+import { setArticles } from "../context/actions/articlesActions";
 
 import { SkelletonArticle } from "./components/SkelettonArticle";
 
@@ -25,18 +29,48 @@ interface Props {
 
 const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, _id }) => {
   const router = useRouter();
-  const [heartClicked, setHeartClicked] = useState(false);
+  const [ipv4, country, region] = useIpUser();
+  const [userLikedArticle, setUserLikedArticle] = useState(false);
+
   const [contentBr, setContentBr] = useState("");
   const [nextArticle, setNextArticle] = useState<Card_Props | undefined | stringOrNumber>(id);
   const [colorHeart, setColorHeart] = useState("transparent");
 
-  const { state } = useContext(ArticlesContext);
+  const { state, dispatch } = useContext(ArticlesContext);
 
   useEffect(() => {
-    const paresedContent = content?.replace(/\n/g, "<br/>");
+    if (state.articles.length === 0) {
+      fetchData(`http://localhost:3000/api/v1/articles`)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .then((data: any) => {
+          dispatch(setArticles(data.data));
+        })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  }, [dispatch, state.articles.length]);
 
-    setContentBr(paresedContent);
-  }, [content]);
+  useEffect(() => {
+    getAllUsersIp().then((res) => {
+      const data: [] = res.data;
+
+      data.map((item: { article: string; ipv4: string }) => {
+        if (item.ipv4 === ipv4 && item.article === _id) {
+          setUserLikedArticle(true);
+        }
+      });
+    });
+  }, [ipv4, _id]);
+
+  useEffect(() => {
+    console.log({ userLikedArticle });
+
+    if (userLikedArticle) {
+      setColorHeart("red.500");
+    }
+  }, [userLikedArticle]);
 
   useEffect(() => {
     if (!state.articles) {
@@ -51,6 +85,12 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
     setNextArticle(indexNextArticle);
   }, [state.articles, id, _id, router]);
 
+  useEffect(() => {
+    const paresedContent = content?.replace(/\n/g, "<br/>");
+
+    setContentBr(paresedContent);
+  }, [content]);
+
   if (router.isFallback) {
     return <SkelletonArticle />;
   }
@@ -63,15 +103,38 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
     );
   }
 
-  const handleHeart = () => {
-    if (!heartClicked) {
+  const handleColorOfHeart = () => {
+    if (userLikedArticle) {
       setColorHeart("red.500");
-
-      setHeartClicked(true);
     } else {
       setColorHeart("transparent");
+    }
+  };
 
-      setHeartClicked(false);
+  const handleLike = async () => {
+    if (!userLikedArticle) {
+      const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const articleLike = await fetchData(
+        `http://localhost:3000/api/v1/articles/like/${_id}`,
+        options,
+      );
+
+      if (articleLike.ok) {
+        const id: string = articleLike.data._id;
+        const ipRegister = await userHasBeenLided(ipv4, country, region, id);
+
+        handleColorOfHeart();
+
+        if (ipRegister) {
+          setUserLikedArticle(true);
+        }
+      }
     }
   };
 
@@ -121,7 +184,6 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
               <Stack
                 cursor={"pointer"}
                 width={"fit-content"}
-                onClick={handleHeart}
                 direction={"row"}
                 spacing={4}
                 alignItems={"center"}
@@ -132,11 +194,19 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
                   width={6}
                   height={6}
                   transition={"ease-in-out 0.2s color"}
+                  stroke={"#474747"}
+                  onClick={handleLike}
                 />
 
-                <Text fontSize={12} fontWeight={"600"}>
-                  Dale tu Like (No hay otra opción)
-                </Text>
+                {userLikedArticle ? (
+                  <Text fontSize={12} fontWeight={"600"}>
+                    Gracias por tu like
+                  </Text>
+                ) : (
+                  <Text fontSize={12} fontWeight={"600"}>
+                    Danos tu like (no hay otra opción)
+                  </Text>
+                )}
               </Stack>
             </Stack>
           </GridItem>
@@ -154,7 +224,6 @@ export const getStaticPaths: GetStaticPaths = () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  // 61b541ef055195beeece4fed
   connectDBWithoutRes(process.env.MONGO_URI);
 
   try {

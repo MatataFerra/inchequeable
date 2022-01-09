@@ -83,7 +83,7 @@ const Blogs: NextPage<Data> = ({ data }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch("http://localhost:3000/api/v1/articles");
+  const res = await fetch(`${process.env.DOMAIN}/api/v1/articles`);
   const data = await res.json();
 
   return {

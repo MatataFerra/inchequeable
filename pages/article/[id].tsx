@@ -37,6 +37,12 @@ interface Props {
   createdAt: string;
 }
 
+type ResponseArticles = {
+  message: string;
+  ok: boolean;
+  data: Card_Props[];
+};
+
 const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, _id }) => {
   const router = useRouter();
   const [ipv4, country, region] = useIpUser();
@@ -51,13 +57,12 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
 
   useEffect(() => {
     if (state.articles.length === 0) {
-      fetchData(`http://localhost:3000/api/v1/articles`)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .then((data: any) => {
+      fetchData(`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/articles`)
+        .then((data: ResponseArticles) => {
           dispatch(setArticles(data.data));
         })
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .catch((err: any) => {
+
+        .catch((err: unknown) => {
           console.log(err);
         });
     }
@@ -67,15 +72,25 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
     setUserLikedArticle(false);
     setLoadingLike(false);
 
-    getIpUser(ipv4).then((res) => {
-      if (res.ok) {
-        res.data.article.map(
-          (article: { _id: string }) => article._id === _id && setUserLikedArticle(true),
-        );
+    getIpUser(ipv4)
+      .then((res) => {
+        if (res.ok) {
+          res.data.article.map(
+            (article: { _id: string }) => article._id === _id && setUserLikedArticle(true),
+          );
 
-        setLoadingLike(true);
-      }
-    });
+          setLoadingLike(true);
+        } else {
+          setLoadingLike(true);
+        }
+      })
+      .catch((err: unknown) => {
+        console.log(err);
+
+        console.log(
+          "Waiting for connection, if error persists, check your internet connection or try again later",
+        );
+      });
   }, [ipv4, _id]);
 
   useEffect(() => {
@@ -135,7 +150,7 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
       };
 
       const articleLike = await fetchData(
-        `http://localhost:3000/api/v1/articles/like/${_id}`,
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/articles/like/${_id}`,
         options,
       );
 
@@ -158,13 +173,18 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
   return (
     <>
       <Stack height={"100vh"}>
-        <Grid templateColumns={{ lg: "repeat(2, 1fr)", sm: "repeat(1, 1fr)" }} height={"100%"}>
+        <Grid
+          templateColumns={{ lg: "repeat(2, 1fr)", sm: "repeat(1, 1fr)" }}
+          height={"100%"}
+          alignContent={"center"}
+        >
           <GridItem
             backgroundImage={`url("/typing_boy.svg")`}
             backgroundRepeat={"no-repeat"}
             filter={"opacity(0.5)"}
-            backgroundSize={"contain"}
+            backgroundSize={{ xl: "42rem", lg: "30rem" }}
             display={{ lg: "block", base: "none" }}
+            backgroundPosition={"center"}
           />
           <GridItem padding={4}>
             <Stack direction={"row"} justifyContent={"space-between"}>

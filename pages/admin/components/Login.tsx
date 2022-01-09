@@ -35,7 +35,7 @@ export const Login: FC = () => {
       }),
     };
 
-    const data = await fetchData("http://localhost:3000/api/v1/auth/login", options);
+    const data = await fetchData(`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/auth/login`, options);
 
     if (data?.ok) {
       setCookies("token", data.data, { maxAge: 60 * 60 * 24, secure: true });

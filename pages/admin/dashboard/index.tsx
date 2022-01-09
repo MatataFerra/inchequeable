@@ -70,7 +70,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     };
   }
 
-  const data = await fetchData("http://localhost:3000/api/v1/articles");
+  const data = await fetchData(`${process.env.DOMAIN}/api/v1/articles`);
 
   return {
     props: {

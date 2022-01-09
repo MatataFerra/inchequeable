@@ -106,7 +106,10 @@ const EditOneArticle: NextPage<Props> = ({ id, title, subtitle, content, link, c
       body: JSON.stringify(updateArticle),
     };
 
-    const response = await fetchData(`http://localhost:3000/api/v1/articles/update/${id}`, options);
+    const response = await fetchData(
+      `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/articles/update/${id}`,
+      options,
+    );
 
     if (response.ok) {
       toast({

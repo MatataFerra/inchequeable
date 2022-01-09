@@ -26,7 +26,7 @@ export const DeleteAllButton: FC<Props> = ({ articlesLen }) => {
 
     try {
       const deleteArticle = await fetchData(
-        `http://localhost:3000/api/v1/articles/delete`,
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/articles/delete`,
         options,
       );
 

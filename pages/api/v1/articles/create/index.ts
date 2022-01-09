@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { db } from "../../../../../mongo/client";
 import Article from "../../../../models/Article";
-import { validateJwt } from "../../../../helpers/auth/jwt";
+import { validateJwt } from "../../../../../src/helpers/auth/jwt";
 
 type JsonResponse = {
   ok: boolean;

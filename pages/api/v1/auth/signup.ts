@@ -3,8 +3,8 @@ import bcrypt from "bcrypt";
 
 import { db, disconnectDB } from "../../../../mongo/client";
 import User from "../../../models/User";
-import { checkRegExp } from "../../../helpers/auth/regex";
-import { generateJwt } from "../../../helpers/auth/jwt";
+import { checkRegExp } from "../../../../src/helpers/auth/regex";
+import { generateJwt } from "../../../../src/helpers/auth/jwt";
 
 type JsonResponse = {
   ok: boolean;

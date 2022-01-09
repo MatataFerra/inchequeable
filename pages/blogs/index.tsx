@@ -7,8 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { Card_Props } from "../../types/types";
 import { setArticles } from "../context/actions/articlesActions";
 import { ArticlesContext } from "../context/provider";
-
-import { Cards } from "./components/Cards";
+import { Cards } from "../../src/blogs/components/Cards";
 
 interface Data {
   data: {

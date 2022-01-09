@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { Image } from "@chakra-ui/react";
 
-import Title from "../../../components/Title";
-import { Login } from "../../components/Login";
-import styles from "../../styles/admin.module.scss";
+import Title from "../../home/components/Title";
+import { Login } from "../../admin/components/Login";
+import styles from "../../../pages/admin/styles/admin.module.scss";
 
 export const LoginPage: FC = () => {
   return (

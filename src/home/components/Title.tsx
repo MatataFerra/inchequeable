@@ -1,7 +1,7 @@
 import { Stack, Text } from "@chakra-ui/react";
 import type { NextPage } from "next";
 
-import styles from "../../styles/home.module.scss";
+import styles from "../../../styles/home.module.scss";
 
 const Title: NextPage = () => {
   return (

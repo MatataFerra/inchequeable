@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { db } from "../../../../../mongo/client";
-import { validateJwt } from "../../../../helpers/auth/jwt";
+import { validateJwt } from "../../../../../src/helpers/auth/jwt";
 import Article from "../../../../models/Article";
 
 type JsonResponse = {

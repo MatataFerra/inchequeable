@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DataResponse } from "../../../types/types";
+import { DataResponse } from "../../types/types";
 
 export const fetchData = async (
   url: string,

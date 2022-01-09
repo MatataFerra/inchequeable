@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { validateJwt } from "../helpers/auth/jwt";
+import { validateJwt } from "../../src/helpers/auth/jwt";
 
 type Data = {
   name: string;

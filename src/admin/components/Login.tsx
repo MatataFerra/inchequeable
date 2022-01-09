@@ -3,7 +3,7 @@ import { FC, useState } from "react";
 import { setCookies } from "cookies-next";
 import { useRouter } from "next/router";
 
-import { fetchData } from "../../helpers/utils/fetchData";
+import { fetchData } from "../../../src/helpers/fetchData";
 
 export const Login: FC = () => {
   const [loading, setLoading] = useState(false);

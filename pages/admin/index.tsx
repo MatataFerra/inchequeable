@@ -2,10 +2,9 @@ import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { getCookieAndValidateToken } from "../helpers/auth/cookies";
-
-import { SpinnerLoader } from "./dashboard/components/Spinner";
-import { LoginPage } from "./dashboard/components/LoginPage";
+import { getCookieAndValidateToken } from "../../src/helpers/auth/cookies";
+import { SpinnerLoader } from "../../src/dashboard/components/Spinner";
+import { LoginPage } from "../../src/dashboard/components/LoginPage";
 
 interface Props {
   token?: boolean;

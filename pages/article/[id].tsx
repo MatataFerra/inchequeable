@@ -16,17 +16,16 @@ import reactStringReplace from "react-string-replace";
 
 import { connectDBWithoutRes } from "../../mongo/client";
 import Article from "../models/Article";
-import { parseDate } from "../helpers/utils/dateFormatter";
+import { parseDate } from "../../src/helpers/dateFormatter";
 import { HeartIcon } from "../icons/Heart";
 import { ArticlesContext } from "../context/provider";
 import { stringOrNumber, Card_Props } from "../../types/types";
-import { fetchData } from "../helpers/utils/fetchData";
+import { fetchData } from "../../src/helpers/fetchData";
 import { useIpUser } from "../hooks/useIpUser";
-import { getIpUser, userHasBeenLided } from "../helpers/utils/likedArticle";
+import { getIpUser, userHasBeenLided } from "../../src/helpers/likedArticle";
 import { setArticles } from "../context/actions/articlesActions";
-
-import { SkelletonArticle } from "./components/SkelettonArticle";
-import { MessageLike } from "./components/MessageLike";
+import { SkelletonArticle } from "../../src/articles/components/SkelettonArticle";
+import { MessageLike } from "../../src/articles/components/MessageLike";
 
 interface Props {
   id: string;

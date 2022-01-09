@@ -2,8 +2,8 @@ import { Input, Stack } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { FC, useContext, useEffect, useState } from "react";
 
-import { FilterContext } from "../../../context/provider";
-import { setFilter } from "../../../context/actions/filterActions";
+import { FilterContext } from "../../../pages/context/provider";
+import { setFilter } from "../../../pages/context/actions/filterActions";
 
 export const Search: FC = () => {
   const [articleFilter, setArticleFilter] = useState("");

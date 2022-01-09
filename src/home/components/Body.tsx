@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { Stack, Text, Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
-import styles from "../../styles/home.module.scss";
+import styles from "../../../styles/home.module.scss";
 
 const Body: NextPage = () => {
   const router = useRouter();

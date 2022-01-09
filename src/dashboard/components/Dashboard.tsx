@@ -2,14 +2,14 @@ import { Container, Grid, HStack, Stack, Text } from "@chakra-ui/react";
 import { FC, useContext } from "react";
 import Image from "next/image";
 
-import { Card_Props } from "../../../../types/types";
-import { useArticles } from "../../../hooks/useArticle";
-import { FilterContext } from "../../../context/provider";
+import { Card_Props } from "../../../types/types";
+import { useArticles } from "../../../pages/hooks/useArticle";
+import { FilterContext } from "../../../pages/context/provider";
 
-import { SideBar } from "./SideBar";
-import { CardsAdmin } from "./CardsAdmin";
-import { Search } from "./Search";
 import { DeleteAllButton } from "./DeleteAllButton";
+import { CardsAdmin } from "./CardsAdmin";
+import { SideBar } from "./SideBar";
+import { Search } from "./Search";
 
 interface Props {
   articles: Array<Card_Props>;

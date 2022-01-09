@@ -1,9 +1,8 @@
 import type { NextPage } from "next";
 
 import styles from "../styles/home.module.scss";
-
-import Body from "./components/Body";
-import Title from "./components/Title";
+import Body from "../src/home/components/Body";
+import Title from "../src/home/components/Title";
 
 const Home: NextPage = () => {
   return (

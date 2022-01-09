@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import { getCookie } from "cookies-next";
 
-import { fetchData } from "../../../helpers/utils/fetchData";
+import { fetchData } from "../../helpers/fetchData";
 
 import { AlertDialogComponent } from "./AlertDialog";
 

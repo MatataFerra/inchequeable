@@ -15,12 +15,12 @@ import { useRouter } from "next/router";
 import { useState, ChangeEvent, useEffect } from "react";
 
 import { connectDBWithoutRes } from "../../../../mongo/client";
-import { getCookieAndValidateOnClientToken } from "../../../helpers/auth/cookies";
-import { parseDate } from "../../../helpers/utils/dateFormatter";
-import { fetchData } from "../../../helpers/utils/fetchData";
+import { getCookieAndValidateOnClientToken } from "../../../../src/helpers/auth/cookies";
+import { parseDate } from "../../../../src/helpers/dateFormatter";
+import { fetchData } from "../../../../src/helpers/fetchData";
 import Article from "../../../models/Article";
-import { SideBar } from "../components/SideBar";
-import { SpinnerLoader } from "../components/Spinner";
+import { SideBar } from "../../../../src/dashboard/components/SideBar";
+import { SpinnerLoader } from "../../../../src/dashboard/components/Spinner";
 
 interface Props {
   id?: string;
@@ -251,6 +251,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   connectDBWithoutRes(process.env.MONGO_URI);
 
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const id: string | any = params?.id?.toString();
     const article = await Article.findById(id);
 

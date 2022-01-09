@@ -4,15 +4,14 @@ import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import { getCookie } from "cookies-next";
 
-import { getCookieAndValidateToken } from "../../helpers/auth/cookies";
-import { fetchData } from "../../helpers/utils/fetchData";
+import { getCookieAndValidateToken } from "../../../src/helpers/auth/cookies";
+import { fetchData } from "../../../src/helpers/fetchData";
 import { Card_Props } from "../../../types/types";
 import { useArticles } from "../../hooks/useArticle";
 import { filterReducer, initialFilterState } from "../../context/reducers/filterReducer";
 import { FilterContext } from "../../context/provider";
-
-import { SpinnerLoader } from "./components/Spinner";
-import { DashboardScreen } from "./components/Dashboard";
+import { SpinnerLoader } from "../../../src/dashboard/components/Spinner";
+import { DashboardScreen } from "../../../src/dashboard/components/Dashboard";
 
 interface Props {
   token?: boolean;

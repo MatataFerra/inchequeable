@@ -3,7 +3,7 @@ import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { FC } from "react";
 
-import { fetchData } from "../../../helpers/utils/fetchData";
+import { fetchData } from "../../helpers/fetchData";
 
 type Props = {
   articlesLen: number;

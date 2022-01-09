@@ -4,10 +4,10 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState, ChangeEvent, useEffect } from "react";
 
-import { getCookieAndValidateOnClientToken } from "../../../helpers/auth/cookies";
-import { fetchData } from "../../../helpers/utils/fetchData";
-import { SideBar } from "../components/SideBar";
-import { SpinnerLoader } from "../components/Spinner";
+import { getCookieAndValidateOnClientToken } from "../../../../src/helpers/auth/cookies";
+import { fetchData } from "../../../../src/helpers/fetchData";
+import { SideBar } from "../../../../src/dashboard/components/SideBar";
+import { SpinnerLoader } from "../../../../src/dashboard/components/Spinner";
 
 const CreateArticle: NextPage = () => {
   const router = useRouter();

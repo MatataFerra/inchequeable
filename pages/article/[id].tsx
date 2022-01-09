@@ -65,7 +65,7 @@ const OneArticlePage: NextPage<Props> = ({
 
   useEffect(() => {
     if (state.articles.length === 0) {
-      fetchData(`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/articles`)
+      fetchData(`/api/v1/articles`)
         .then((data: ResponseArticles) => {
           dispatch(setArticles(data.data));
         })
@@ -157,10 +157,7 @@ const OneArticlePage: NextPage<Props> = ({
         },
       };
 
-      const articleLike = await fetchData(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/articles/like/${_id}`,
-        options,
-      );
+      const articleLike = await fetchData(`/api/v1/articles/like/${_id}`, options);
 
       if (articleLike.ok) {
         const id: string = articleLike.data._id;

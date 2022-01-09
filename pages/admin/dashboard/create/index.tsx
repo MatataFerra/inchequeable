@@ -72,10 +72,7 @@ const CreateArticle: NextPage = () => {
       body: JSON.stringify(updateArticle),
     };
 
-    const response = await fetchData(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/articles/create`,
-      options,
-    );
+    const response = await fetchData(`/api/v1/articles/create`, options);
 
     if (response.ok) {
       toast({

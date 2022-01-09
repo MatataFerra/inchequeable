@@ -17,10 +17,7 @@ export const userHasBeenLided = async (
       body: JSON.stringify({ article }),
     };
 
-    const result = await fetchData(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/ipusers/update?id=${foundIpofUser.data._id}`,
-      options,
-    );
+    const result = await fetchData(`/api/v1/ipusers/update?id=${foundIpofUser.data._id}`, options);
 
     return result;
   }
@@ -33,10 +30,7 @@ export const userHasBeenLided = async (
     body: JSON.stringify({ ipv4, country, region, article }),
   };
 
-  const result = await fetchData(
-    `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/ipusers/create`,
-    options,
-  );
+  const result = await fetchData(`/api/v1/ipusers/create`, options);
 
   return result;
 };
@@ -49,16 +43,13 @@ export const getIpUser = async (ipv4: string) => {
     },
   };
 
-  const result = await fetchData(
-    `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/ipusers/oneip?ipv4=${ipv4}`,
-    options,
-  );
+  const result = await fetchData(`/api/v1/ipusers/oneip?ipv4=${ipv4}`, options);
 
   return result;
 };
 
 export const getAllUsersIp = async () => {
-  const result = await fetchData(`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/ipusers`);
+  const result = await fetchData(`/api/v1/ipusers`);
 
   return result;
 };

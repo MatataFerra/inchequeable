@@ -76,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     secure: true,
   }) as string;
 
-  const data = await fetchData(`${process.env.DOMAIN}/api/v1/articles/show`, {
+  const data = await fetchData(`/api/v1/articles/show`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

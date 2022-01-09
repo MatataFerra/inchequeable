@@ -63,10 +63,7 @@ export const CardContent: FC<Props> = ({
       };
 
       try {
-        const deleteArticle = await fetchData(
-          `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/articles/delete/${_id}`,
-          options,
-        );
+        const deleteArticle = await fetchData(`/api/v1/articles/delete/${_id}`, options);
 
         if (deleteArticle.ok) {
           setWantDeleteArticle(false);

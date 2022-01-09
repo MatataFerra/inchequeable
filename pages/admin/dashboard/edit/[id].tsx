@@ -251,7 +251,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   connectDBWithoutRes(process.env.MONGO_URI);
 
   try {
-    const id: string | unknown = params?.id?.toString();
+    const id: string | any = params?.id?.toString();
     const article = await Article.findById(id);
 
     if (!article) {

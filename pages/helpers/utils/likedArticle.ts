@@ -6,6 +6,25 @@ export const userHasBeenLided = async (
   region: string,
   article: string,
 ) => {
+  const foundIpofUser = await getIpUser(ipv4);
+
+  if (foundIpofUser.data !== null) {
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ article }),
+    };
+
+    const result = await fetchData(
+      `http://localhost:3000/api/v1/ipusers/update?id=${foundIpofUser.data._id}`,
+      options,
+    );
+
+    return result;
+  }
+
   const options = {
     method: "POST",
     headers: {
@@ -27,7 +46,10 @@ export const getIpUser = async (ipv4: string) => {
     },
   };
 
-  const result = await fetchData(`http://localhost:3000/api/v1/ipusers?ipv4=${ipv4}`, options);
+  const result = await fetchData(
+    `http://localhost:3000/api/v1/ipusers/oneip?ipv4=${ipv4}`,
+    options,
+  );
 
   return result;
 };

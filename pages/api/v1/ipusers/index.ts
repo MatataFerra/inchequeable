@@ -21,22 +21,30 @@ export default async function getIpUser(req: NextApiRequest, res: NextApiRespons
   if (req.method === "GET") {
     db(process.env.MONGO_URI, res);
 
-    await IpUsers.find({})
-      .then((data) => {
-        return res.status(200).json({
-          message: "Ip of users found",
-          ok: true,
-          data: data,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
+    try {
+      const getallIp = await IpUsers.find({}).populate("article").exec();
 
-        return res.status(400).json({
-          message: "Hubo un error a la hora de hacer la petición",
+      if (getallIp.length === 0) {
+        return res.status(404).json({
+          message: "Ip of users not found",
           ok: false,
           data: null,
         });
+      }
+
+      return res.status(200).json({
+        message: "IpUsers found",
+        ok: true,
+        data: getallIp,
       });
+    } catch (error) {
+      console.log(error);
+
+      return res.status(500).json({
+        message: "Internal server error",
+        ok: false,
+        data: null,
+      });
+    }
   }
 }

@@ -14,8 +14,7 @@ const IpUsersSchema = new Schema({
   },
 
   article: {
-    type: Schema.Types.ObjectId,
-    ref: "Article",
+    type: [{ type: Schema.Types.ObjectId, ref: "Article" }],
   },
 });
 

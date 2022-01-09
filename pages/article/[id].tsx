@@ -1,5 +1,14 @@
 import { NextPage, GetStaticPaths, GetStaticProps } from "next";
-import { Box, Grid, GridItem, Link, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Grid,
+  GridItem,
+  Link,
+  SkeletonCircle,
+  SkeletonText,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 import { useContext, useEffect, useState } from "react";
@@ -13,10 +22,11 @@ import { ArticlesContext } from "../context/provider";
 import { stringOrNumber, Card_Props } from "../../types/types";
 import { fetchData } from "../helpers/utils/fetchData";
 import { useIpUser } from "../hooks/useIpUser";
-import { getAllUsersIp, userHasBeenLided } from "../helpers/utils/likedArticle";
+import { getIpUser, userHasBeenLided } from "../helpers/utils/likedArticle";
 import { setArticles } from "../context/actions/articlesActions";
 
 import { SkelletonArticle } from "./components/SkelettonArticle";
+import { MessageLike } from "./components/MessageLike";
 
 interface Props {
   id: string;
@@ -31,6 +41,7 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
   const router = useRouter();
   const [ipv4, country, region] = useIpUser();
   const [userLikedArticle, setUserLikedArticle] = useState(false);
+  const [loadingLike, setLoadingLike] = useState(false);
 
   const [contentBr, setContentBr] = useState("");
   const [nextArticle, setNextArticle] = useState<Card_Props | undefined | stringOrNumber>(id);
@@ -54,14 +65,16 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
 
   useEffect(() => {
     setUserLikedArticle(false);
-    getAllUsersIp().then((res) => {
-      const data: [] = res.data;
+    setLoadingLike(false);
 
-      data.map((item: { article: string; ipv4: string }) => {
-        if (item.ipv4 === ipv4 && item.article === _id) {
-          setUserLikedArticle(true);
-        }
-      });
+    getIpUser(ipv4).then((res) => {
+      if (res.ok) {
+        res.data.article.map(
+          (article: { _id: string }) => article._id === _id && setUserLikedArticle(true),
+        );
+
+        setLoadingLike(true);
+      }
     });
   }, [ipv4, _id]);
 
@@ -182,33 +195,39 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
                   ))}
                 </Text>
               </Stack>
-              <Stack
-                cursor={"pointer"}
-                width={"fit-content"}
-                direction={"row"}
-                spacing={4}
-                alignItems={"center"}
-                marginTop={"1.5rem !important"}
-              >
-                <HeartIcon
-                  color={colorHeart}
-                  width={6}
-                  height={6}
-                  transition={"ease-in-out 0.2s color"}
-                  stroke={"#474747"}
-                  onClick={handleLike}
-                />
+              {!loadingLike ? (
+                <Stack
+                  width={"fit-content"}
+                  direction={"row"}
+                  spacing={4}
+                  alignItems={"center"}
+                  marginTop={"1.5rem !important"}
+                  transition={"all 0.3s ease-in-out"}
+                >
+                  <SkeletonCircle width={6} height={6} />
+                  <SkeletonText noOfLines={1} width={20} />
+                </Stack>
+              ) : (
+                <Stack
+                  width={"fit-content"}
+                  direction={"row"}
+                  spacing={4}
+                  alignItems={"center"}
+                  marginTop={"1.5rem !important"}
+                  transition={"all 0.3s ease-in-out"}
+                >
+                  <HeartIcon
+                    color={colorHeart}
+                    width={6}
+                    height={6}
+                    transition={"ease-in-out 0.2s color"}
+                    stroke={"#474747"}
+                    onClick={handleLike}
+                  />
 
-                {userLikedArticle ? (
-                  <Text fontSize={12} fontWeight={"600"}>
-                    Gracias por tu like
-                  </Text>
-                ) : (
-                  <Text fontSize={12} fontWeight={"600"}>
-                    Danos tu like (no hay otra opción)
-                  </Text>
-                )}
-              </Stack>
+                  <MessageLike state={userLikedArticle} />
+                </Stack>
+              )}
             </Stack>
           </GridItem>
         </Grid>

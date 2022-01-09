@@ -14,8 +14,6 @@ export default async function getArticles(req: NextApiRequest, res: NextApiRespo
     db(process.env.MONGO_URI, res);
     await Article.find({ show: true })
       .then((data) => {
-        console.log(data);
-
         return res.status(200).json({
           message: "List of articles",
           ok: true,

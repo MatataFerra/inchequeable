@@ -18,8 +18,6 @@ export default validateJwt(async function getArticles(
     db(process.env.MONGO_URI, res);
     await Article.find()
       .then((data) => {
-        console.log(data);
-
         return res.status(200).json({
           message: "List of articles",
           ok: true,

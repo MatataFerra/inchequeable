@@ -15,15 +15,15 @@ import { useContext, useEffect, useState } from "react";
 import reactStringReplace from "react-string-replace";
 
 import { connectDBWithoutRes } from "../../mongo/client";
-import Article from "../models/Article";
+import Article from "../../src/models/Article";
 import { parseDate } from "../../src/helpers/dateFormatter";
-import { HeartIcon } from "../icons/Heart";
-import { ArticlesContext } from "../context/provider";
+import { HeartIcon } from "../../src/icons/Heart";
+import { ArticlesContext } from "../../src/context/provider";
 import { stringOrNumber, Card_Props } from "../../types/types";
 import { fetchData } from "../../src/helpers/fetchData";
-import { useIpUser } from "../hooks/useIpUser";
+import { useIpUser } from "../../src/hooks/useIpUser";
 import { getIpUser, userHasBeenLided } from "../../src/helpers/likedArticle";
-import { setArticles } from "../context/actions/articlesActions";
+import { setArticles } from "../../src/context/actions/articlesActions";
 import { SkelletonArticle } from "../../src/articles/components/SkelettonArticle";
 import { MessageLike } from "../../src/articles/components/MessageLike";
 

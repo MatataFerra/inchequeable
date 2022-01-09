@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { db } from "../../../../../mongo/client";
-import IpUsers from "../../../../models/IpUsers";
+import IpUsers from "../../../../../src/models/IpUsers";
 
 type JsonResponse = {
   ok: boolean;

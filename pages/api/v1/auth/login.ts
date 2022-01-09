@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 
-import User from "../../../models/User";
+import User from "../../../../src/models/User";
 import { generateJwt } from "../../../../src/helpers/auth/jwt";
 import { db, disconnectDB } from "../../../../mongo/client";
 

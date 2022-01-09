@@ -3,8 +3,8 @@ import { FC, useContext } from "react";
 import Image from "next/image";
 
 import { Card_Props } from "../../../types/types";
-import { useArticles } from "../../../pages/hooks/useArticle";
-import { FilterContext } from "../../../pages/context/provider";
+import { useArticles } from "../../hooks/useArticle";
+import { FilterContext } from "../../context/provider";
 
 import { DeleteAllButton } from "./DeleteAllButton";
 import { CardsAdmin } from "./CardsAdmin";

@@ -18,7 +18,7 @@ import { connectDBWithoutRes } from "../../../../mongo/client";
 import { getCookieAndValidateOnClientToken } from "../../../../src/helpers/auth/cookies";
 import { parseDate } from "../../../../src/helpers/dateFormatter";
 import { fetchData } from "../../../../src/helpers/fetchData";
-import Article from "../../../models/Article";
+import Article from "../../../../src/models/Article";
 import { SideBar } from "../../../../src/dashboard/components/SideBar";
 import { SpinnerLoader } from "../../../../src/dashboard/components/Spinner";
 

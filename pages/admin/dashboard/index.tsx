@@ -7,9 +7,9 @@ import { getCookie } from "cookies-next";
 import { getCookieAndValidateToken } from "../../../src/helpers/auth/cookies";
 import { fetchData } from "../../../src/helpers/fetchData";
 import { Card_Props } from "../../../types/types";
-import { useArticles } from "../../hooks/useArticle";
-import { filterReducer, initialFilterState } from "../../context/reducers/filterReducer";
-import { FilterContext } from "../../context/provider";
+import { useArticles } from "../../../src/hooks/useArticle";
+import { filterReducer, initialFilterState } from "../../../src/context/reducers/filterReducer";
+import { FilterContext } from "../../../src/context/provider";
 import { SpinnerLoader } from "../../../src/dashboard/components/Spinner";
 import { DashboardScreen } from "../../../src/dashboard/components/Dashboard";
 

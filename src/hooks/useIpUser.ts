@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 
-import { fetchData } from "../../src/helpers/fetchData";
+import { fetchData } from "../helpers/fetchData";
 
 export const useIpUser = () => {
   const [ipv4, setIpv4] = useState("");

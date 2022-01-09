@@ -5,8 +5,8 @@ import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 
 import { Card_Props } from "../../types/types";
-import { setArticles } from "../context/actions/articlesActions";
-import { ArticlesContext } from "../context/provider";
+import { setArticles } from "../../src/context/actions/articlesActions";
+import { ArticlesContext } from "../../src/context/provider";
 import { Cards } from "../../src/blogs/components/Cards";
 
 interface Data {

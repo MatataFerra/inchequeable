@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 
 import { db, disconnectDB } from "../../../../mongo/client";
-import User from "../../../models/User";
+import User from "../../../../src/models/User";
 import { checkRegExp } from "../../../../src/helpers/auth/regex";
 import { generateJwt } from "../../../../src/helpers/auth/jwt";
 

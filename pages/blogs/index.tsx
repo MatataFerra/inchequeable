@@ -8,26 +8,26 @@ import { Card_Props } from "../../types/types";
 import { setArticles } from "../../src/context/actions/articlesActions";
 import { ArticlesContext } from "../../src/context/provider";
 import { Cards } from "../../src/blogs/components/Cards";
+import { SpinnerLoader } from "../../src/dashboard/components/Spinner";
+import Article from "../../src/models/Article";
 
 interface Data {
-  data: {
-    data: Array<Card_Props>;
-  };
+  data: { articles: Array<Card_Props> };
 }
 
 const Blogs: NextPage<Data> = ({ data }) => {
-  const [blogs] = useState(data.data);
+  const [blogs] = useState(data);
   const [loading, setLoading] = useState<boolean>(true);
   const { dispatch } = useContext(ArticlesContext);
 
   useEffect(() => {
-    if (blogs?.length > 0) {
+    if (blogs.articles?.length > 0) {
       setLoading(false);
     }
-  }, [blogs?.length, blogs]);
+  }, [blogs.articles?.length, blogs]);
 
   useEffect(() => {
-    dispatch(setArticles(blogs));
+    dispatch(setArticles(blogs.articles));
   }, [blogs, dispatch]);
 
   return (
@@ -52,8 +52,8 @@ const Blogs: NextPage<Data> = ({ data }) => {
           width={{ lg: 700, md: "100%" }}
           overflowY={"scroll"}
         >
-          {!loading &&
-            blogs?.map((blog: Card_Props, index: number) => {
+          {!loading ? (
+            blogs.articles?.map((blog: Card_Props, index: number) => {
               return (
                 <Cards
                   key={index}
@@ -64,7 +64,10 @@ const Blogs: NextPage<Data> = ({ data }) => {
                   index={index}
                 />
               );
-            })}
+            })
+          ) : (
+            <SpinnerLoader />
+          )}
         </Stack>
       </GridItem>
       <GridItem
@@ -82,12 +85,11 @@ const Blogs: NextPage<Data> = ({ data }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch(`${process.env.DOMAIN}/api/v1/articles`);
-  const data = await res.json();
+  const articles = await Article.find();
 
   return {
     props: {
-      data,
+      data: JSON.parse(JSON.stringify(articles)),
     },
   };
 };

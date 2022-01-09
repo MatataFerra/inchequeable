@@ -47,6 +47,7 @@ export const DashboardScreen: FC<Props> = ({ articles }) => {
                     author={article.author}
                     subtitle={article.subtitle}
                     content={article.content}
+                    show={article.show}
                     order={index + 1}
                   />
                 );

@@ -11,17 +11,19 @@ type Props = {
   order: number;
   author: string;
   content: string;
+  show?: boolean;
 };
 
-export const CardsAdmin: FC<Props> = ({ order, title, subtitle, author, content, _id }) => {
+export const CardsAdmin: FC<Props> = ({ order, title, subtitle, author, content, _id, show }) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
 
   return (
     <Stack
       padding={{ lg: "0.5rem", sm: 2 }}
       direction={"row"}
-      boxShadow={"0 10px 25px rgba(63, 19, 19, 0.1)"}
+      boxShadow={show ? "0 10px 25px rgba(63, 19, 19, 0.1)" : "0 0 0 0"}
       alignItems={"baseline"}
+      backgroundColor={show ? "#fff" : "#a0a0a03c"}
     >
       <ModalCards
         isOpen={isOpen}
@@ -32,13 +34,14 @@ export const CardsAdmin: FC<Props> = ({ order, title, subtitle, author, content,
         content={content}
       />
 
-      <Text> {order}. </Text>
+      <Text color={show ? "#1C222E" : "#1c222e2d"}> {order}. </Text>
       <CardContent
         withContent={false}
         withIcons
         author={author}
         title={title}
         subtitle={subtitle}
+        show={show}
         _id={_id}
         withModal
         onOpenModal={onOpen}

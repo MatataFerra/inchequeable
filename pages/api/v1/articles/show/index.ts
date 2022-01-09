@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { db } from "../../../../mongo/client";
-import Article from "../../../models/Article";
+import { db } from "../../../../../mongo/client";
+import { validateJwt } from "../../../../helpers/auth/jwt";
+import Article from "../../../../models/Article";
 
 type JsonResponse = {
   ok: boolean;
@@ -9,10 +10,13 @@ type JsonResponse = {
   data: unknown;
 };
 
-export default async function getArticles(req: NextApiRequest, res: NextApiResponse<JsonResponse>) {
+export default validateJwt(async function getArticles(
+  req: NextApiRequest,
+  res: NextApiResponse<JsonResponse>,
+) {
   if (req.method === "GET") {
     db(process.env.MONGO_URI, res);
-    await Article.find({ show: true })
+    await Article.find()
       .then((data) => {
         console.log(data);
 
@@ -32,4 +36,4 @@ export default async function getArticles(req: NextApiRequest, res: NextApiRespo
         });
       });
   }
-}
+});

@@ -28,6 +28,11 @@ const ArticleSchema = new Schema({
     type: String,
   },
 
+  show: {
+    type: Boolean,
+    default: true,
+  },
+
   likes: {
     type: Number,
     default: 0,

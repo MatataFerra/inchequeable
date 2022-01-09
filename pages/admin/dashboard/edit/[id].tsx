@@ -1,4 +1,14 @@
-import { Button, Grid, Input, Stack, Text, Textarea, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  Grid,
+  Input,
+  Stack,
+  Switch,
+  Text,
+  Textarea,
+  Tooltip,
+  useToast,
+} from "@chakra-ui/react";
 import { getCookie } from "cookies-next";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
@@ -19,10 +29,19 @@ interface Props {
   subtitle?: string;
   content?: string;
   link?: string;
+  show?: boolean;
   createdAt: string;
 }
 
-const EditOneArticle: NextPage<Props> = ({ id, title, subtitle, content, link, createdAt }) => {
+const EditOneArticle: NextPage<Props> = ({
+  id,
+  title,
+  subtitle,
+  content,
+  link,
+  createdAt,
+  show,
+}) => {
   const router = useRouter();
   const toast = useToast();
   const [updateArticle, setUpdateArticle] = useState({
@@ -30,6 +49,7 @@ const EditOneArticle: NextPage<Props> = ({ id, title, subtitle, content, link, c
     subtitle,
     content,
     link,
+    show,
   });
 
   useEffect(() => {
@@ -84,6 +104,15 @@ const EditOneArticle: NextPage<Props> = ({ id, title, subtitle, content, link, c
       </Stack>
     );
   }
+
+  const handleSwitchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.checked);
+
+    setUpdateArticle({
+      ...updateArticle,
+      show: e.target.checked,
+    });
+  };
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
@@ -188,10 +217,23 @@ const EditOneArticle: NextPage<Props> = ({ id, title, subtitle, content, link, c
           />
         </Stack>
 
-        <Stack>
+        <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
           <Button minWidth={"7rem"} width={"10rem"} onClick={handleUpdate}>
             Actualizar
           </Button>
+          <Tooltip label="Si está activo el artículo se muestra">
+            <Stack direction={"row"} spacing={4} paddingRight={4}>
+              <Text>Mostrar?</Text>
+              <Switch
+                colorScheme={"buttons"}
+                size={"md"}
+                onChange={handleSwitchChange}
+                name="show"
+                checked={updateArticle.show as boolean}
+                defaultChecked={updateArticle.show as boolean}
+              />
+            </Stack>
+          </Tooltip>
         </Stack>
       </Stack>
     </Grid>
@@ -224,6 +266,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         subtitle: article.subtitle,
         content: article.content,
         link: article.link,
+        show: article.show,
         createdAt: JSON.stringify(article.createdAt),
       },
     };

@@ -7,6 +7,7 @@ export interface Card_Props {
   link: string;
   title: string;
   _id: string | number;
+  show?: boolean;
 }
 
 export type stringOrNumber = string | number;

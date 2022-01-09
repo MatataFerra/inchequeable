@@ -17,6 +17,7 @@ type Props = {
   withIcons: boolean;
   withContent: boolean;
   withModal: boolean;
+  show?: boolean;
   onOpenModal?: () => void;
 };
 
@@ -29,6 +30,7 @@ export const CardContent: FC<Props> = ({
   withContent,
   withModal,
   _id,
+  show,
   onOpenModal,
 }) => {
   const router = useRouter();
@@ -98,7 +100,7 @@ export const CardContent: FC<Props> = ({
           isTruncated
           whiteSpace={"break-spaces"}
           fontSize={{ lg: 20, sm: 16 }}
-          color="buttons.400"
+          color={"buttons.400"}
         >
           {title}
         </Text>
@@ -133,7 +135,7 @@ export const CardContent: FC<Props> = ({
             creador/a: {author}
           </Text>
 
-          <Button onClick={onOpenModal} size="sm">
+          <Button onClick={onOpenModal} size="sm" colorScheme={show ? "secondary" : "gray"}>
             Ver más
           </Button>
         </Stack>

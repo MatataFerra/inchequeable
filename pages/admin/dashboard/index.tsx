@@ -2,6 +2,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { useEffect, useReducer, useState } from "react";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
+import { getCookie } from "cookies-next";
 
 import { getCookieAndValidateToken } from "../../helpers/auth/cookies";
 import { fetchData } from "../../helpers/utils/fetchData";
@@ -70,7 +71,19 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     };
   }
 
-  const data = await fetchData(`${process.env.DOMAIN}/api/v1/articles`);
+  const token = getCookie("token", {
+    req,
+    res,
+    secure: true,
+  }) as string;
+
+  const data = await fetchData(`${process.env.DOMAIN}/api/v1/articles/show`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   return {
     props: {

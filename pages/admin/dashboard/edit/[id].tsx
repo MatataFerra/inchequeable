@@ -106,8 +106,6 @@ const EditOneArticle: NextPage<Props> = ({
   }
 
   const handleSwitchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.checked);
-
     setUpdateArticle({
       ...updateArticle,
       show: e.target.checked,

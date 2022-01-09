@@ -25,8 +25,6 @@ export const useArticles = () => {
       },
     })
       .then((response: ResponseArticles) => {
-        console.log(response);
-
         if (response.ok) {
           setArticles(response.data);
         }

@@ -11,12 +11,8 @@ import { CardsAdmin } from "./CardsAdmin";
 import { SideBar } from "./SideBar";
 import { Search } from "./Search";
 
-interface Props {
-  articles: Array<Card_Props>;
-}
-
-export const DashboardScreen: FC<Props> = ({ articles }) => {
-  const getArticles = useArticles(articles) as Array<Card_Props>;
+export const DashboardScreen: FC = () => {
+  const getArticles = useArticles() as Array<Card_Props>;
 
   const { state } = useContext(FilterContext);
 

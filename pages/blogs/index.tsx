@@ -1,5 +1,5 @@
-import { Grid, GridItem, Stack, Text } from "@chakra-ui/react";
-import { NextPage, GetServerSideProps } from "next";
+import { Grid, GridItem, Skeleton, Stack, Text } from "@chakra-ui/react";
+import { NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
@@ -9,26 +9,25 @@ import { setArticles } from "../../src/context/actions/articlesActions";
 import { ArticlesContext } from "../../src/context/provider";
 import { Cards } from "../../src/blogs/components/Cards";
 import { SpinnerLoader } from "../../src/dashboard/components/Spinner";
-import Article from "../../src/models/Article";
+import { useFetch } from "../../src/hooks/useFetch";
 
-interface Data {
-  data: { articles: Array<Card_Props> };
-}
+type ResponseArticles = {
+  message: string;
+  ok: boolean;
+  data: Card_Props[];
+};
 
-const Blogs: NextPage<Data> = ({ data }) => {
-  const [blogs] = useState(data);
+const Blogs: NextPage = () => {
+  const articles = useFetch("api/v1/articles") as ResponseArticles;
   const [loading, setLoading] = useState<boolean>(true);
   const { dispatch } = useContext(ArticlesContext);
 
   useEffect(() => {
-    if (blogs.articles?.length > 0) {
+    if (articles?.data?.length > 0) {
       setLoading(false);
+      dispatch(setArticles(articles.data));
     }
-  }, [blogs.articles?.length, blogs]);
-
-  useEffect(() => {
-    dispatch(setArticles(blogs.articles));
-  }, [blogs, dispatch]);
+  }, [dispatch, articles?.data]);
 
   return (
     <Grid
@@ -53,7 +52,7 @@ const Blogs: NextPage<Data> = ({ data }) => {
           overflowY={"scroll"}
         >
           {!loading ? (
-            blogs.articles?.map((blog: Card_Props, index: number) => {
+            articles?.data?.map((blog: Card_Props, index: number) => {
               return (
                 <Cards
                   key={index}
@@ -78,20 +77,12 @@ const Blogs: NextPage<Data> = ({ data }) => {
         display={"flex"}
         justifyContent={"center"}
       >
-        <Image src="/typing.svg" alt="typing something" width={600} height={600} />
+        <Skeleton isLoaded={!loading}>
+          <Image src="/typing.svg" alt="typing something" width={600} height={600} />
+        </Skeleton>
       </GridItem>
     </Grid>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const articles = await Article.find();
-
-  return {
-    props: {
-      data: JSON.parse(JSON.stringify(articles)),
-    },
-  };
 };
 
 export default Blogs;

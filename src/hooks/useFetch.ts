@@ -5,16 +5,13 @@ export const useFetch = (url: string, options?: RequestInit) => {
   const [state, setState] = useState<unknown>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = _.isEmpty(options) ? await fetch(url, options) : await fetch(url);
-      const data = await response.json();
-
-      if (!data.ok) return { ok: false, message: "Hubo un error en la petición", data: null };
-
-      setState(data);
-    };
-
-    fetchData();
+    _.isEmpty(options)
+      ? fetch(url, options)
+          .then((response) => response.json())
+          .then((data) => setState(data))
+      : fetch(url)
+          .then((response) => response.json())
+          .then((data) => setState(data));
   }, [url, options]);
 
   return state;

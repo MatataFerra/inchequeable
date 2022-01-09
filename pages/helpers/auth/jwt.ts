@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 
+import { DataResponse } from "../../../types/types";
+
 export const validateJwt =
   (fn: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
     const token = <string>req?.headers?.authorization?.split(" ")[1];
@@ -37,7 +39,7 @@ export const generateJwt = (uid: string | number, name: string) => {
         payload,
         process.env.SECRET_KEY,
         {
-          expiresIn: "2h",
+          expiresIn: "1d",
         },
         (err, token) => {
           if (err) {
@@ -52,5 +54,23 @@ export const generateJwt = (uid: string | number, name: string) => {
 
       return reject("Hubo un error a la hora de generar el token");
     }
+  });
+};
+
+export const validateClientJwt = async (token: string): Promise<DataResponse | void> => {
+  return jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+    if (!err && decoded) {
+      return {
+        ok: true,
+        message: "Token valido",
+        data: decoded,
+      };
+    }
+
+    return {
+      ok: false,
+      message: "Token no coincide",
+      data: null,
+    };
   });
 };

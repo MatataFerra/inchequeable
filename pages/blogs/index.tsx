@@ -2,9 +2,11 @@ import { Grid, GridItem, Stack, Text } from "@chakra-ui/react";
 import { NextPage, GetServerSideProps } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Card_Props } from "../../types/types";
+import { setArticles } from "../context/actions/articlesActions";
+import { ArticlesContext } from "../context/provider";
 
 import { Cards } from "./components/Cards";
 
@@ -16,24 +18,41 @@ interface Data {
 
 const Blogs: NextPage<Data> = ({ data }) => {
   const [blogs] = useState(data.data);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const { dispatch } = useContext(ArticlesContext);
 
   useEffect(() => {
-    if (blogs.length > 0) {
+    if (blogs?.length > 0) {
       setLoading(false);
     }
-  }, [blogs.length]);
+  }, [blogs?.length, blogs]);
+
+  useEffect(() => {
+    dispatch(setArticles(blogs));
+  }, [blogs, dispatch]);
 
   return (
-    <Grid padding={8} templateColumns={"repeat(2, 1fr)"} templateRows={"repeat(2, 1fr)"} rowGap={4}>
-      <GridItem colStart={2} zIndex={999} rowStart={1} justifySelf={"end"}>
+    <Grid
+      padding={8}
+      templateColumns={{ lg: "repeat(2, 1fr)", md: "1fr" }}
+      templateRows={{ lg: "repeat(2, 1fr)", md: "1fr" }}
+      rowGap={4}
+      height={"100vh"}
+    >
+      <GridItem colStart={{ lg: 2, base: 1 }} zIndex={9999} rowStart={1} justifySelf={"end"}>
         <Link href="/">
           <a style={{ fontStyle: "italic" }}>Volver</a>
         </Link>
       </GridItem>
-      <GridItem>
+      <GridItem colStart={1} rowStart={1} zIndex={999}>
         <Text fontSize={48}> Lo inchequeable </Text>
-        <Stack spacing={3} padding={4} height={"70%"} width={500} overflowY={"scroll"}>
+        <Stack
+          spacing={3}
+          padding={4}
+          height={"80%"}
+          width={{ lg: 700, md: "100%" }}
+          overflowY={"scroll"}
+        >
           {!loading &&
             blogs?.map((blog: Card_Props, index: number) => {
               return (
@@ -43,12 +62,20 @@ const Blogs: NextPage<Data> = ({ data }) => {
                   author={blog.author}
                   subtitle={blog.subtitle}
                   id={blog._id}
+                  index={index}
                 />
               );
             })}
         </Stack>
       </GridItem>
-      <GridItem colStart={2} rowStart={1} rowEnd={3} filter={"opacity(0.5)"}>
+      <GridItem
+        colStart={{ lg: 2, md: 1, base: 1 }}
+        rowStart={1}
+        rowEnd={{ lg: 2, md: 1, base: 1 }}
+        filter={"opacity(0.2)"}
+        display={"flex"}
+        justifyContent={"center"}
+      >
         <Image src="/typing.svg" alt="typing something" width={600} height={600} />
       </GridItem>
     </Grid>

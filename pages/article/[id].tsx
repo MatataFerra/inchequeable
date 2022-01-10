@@ -208,7 +208,15 @@ const OneArticlePage: NextPage<Props> = ({
               <Text fontSize={"2xl"}>{title}</Text>
               <Text fontSize={12}>
                 fuente:
-                <Link href={link} color={"secondary.500"} marginLeft={2} target={"_blank"}>
+                <Link
+                  href={link}
+                  color={"secondary.500"}
+                  marginLeft={2}
+                  target={"_blank"}
+                  isTruncated
+                  whiteSpace={"break-spaces"}
+                  noOfLines={1}
+                >
                   {link}
                 </Link>
               </Text>

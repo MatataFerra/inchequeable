@@ -53,6 +53,10 @@ const EditOneArticle: NextPage<Props> = ({
   });
 
   useEffect(() => {
+    console.log(updateArticle.show);
+  }, [updateArticle.show]);
+
+  useEffect(() => {
     getCookieAndValidateOnClientToken({ secure: true })
       .then((token) => {
         if (!token) {
@@ -133,23 +137,34 @@ const EditOneArticle: NextPage<Props> = ({
       body: JSON.stringify(updateArticle),
     };
 
-    const response = await fetchData(`/api/v1/articles/update/${id}`, options);
+    try {
+      const response = await fetchData(`/api/v1/articles/update/${id}`, options);
 
-    if (response.ok) {
-      toast({
-        title: "Artículo actualizado",
-        description: "Serás redireccionado a la página principal en 3 segundos",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-        onCloseComplete: () => router.push("/admin/dashboard"),
-      });
-    } else {
+      if (response.ok) {
+        toast({
+          title: "Artículo actualizado",
+          description: "Serás redireccionado a la página principal en 3 segundos",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          onCloseComplete: () => router.push("/admin/dashboard"),
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "No se pudo actualizar el artículo",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.log(error);
       toast({
         title: "Error",
         description: "No se pudo actualizar el artículo",
         status: "error",
-        duration: 9000,
+        duration: 2000,
         isClosable: true,
       });
     }

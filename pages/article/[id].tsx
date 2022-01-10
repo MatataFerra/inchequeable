@@ -213,11 +213,10 @@ const OneArticlePage: NextPage<Props> = ({
                   color={"secondary.500"}
                   marginLeft={2}
                   target={"_blank"}
+                  fontStyle={"italic"}
                   isTruncated
-                  whiteSpace={"break-spaces"}
-                  noOfLines={1}
                 >
-                  {link}
+                  Click para ir a la fuente
                 </Link>
               </Text>
               <Text fontSize={12}> fecha de creación: {dateFormatted} </Text>

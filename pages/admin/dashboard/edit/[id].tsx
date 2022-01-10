@@ -239,7 +239,7 @@ const EditOneArticle: NextPage<Props> = ({
                 size={"md"}
                 onChange={handleSwitchChange}
                 name="show"
-                checked={updateArticle.show as boolean}
+                // checked={updateArticle.show as boolean}
                 defaultChecked={updateArticle.show as boolean}
               />
             </Stack>

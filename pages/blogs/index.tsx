@@ -31,7 +31,7 @@ const Blogs: NextPage = () => {
 
   return (
     <Grid
-      padding={8}
+      padding={{ lg: 8, sm: 0, base: 0 }}
       templateColumns={{ lg: "repeat(2, 1fr)", md: "1fr" }}
       templateRows={{ lg: "repeat(2, 1fr)", md: "1fr" }}
       rowGap={4}
@@ -43,7 +43,7 @@ const Blogs: NextPage = () => {
         </Link>
       </GridItem>
       <GridItem colStart={1} rowStart={1} zIndex={999}>
-        <Text fontSize={48}> Lo inchequeable </Text>
+        <Text fontSize={{ lg: 48, sm: 42, base: 36 }}> Lo inchequeable </Text>
         <Stack
           spacing={3}
           padding={4}

@@ -9,18 +9,11 @@ $breakpointMd: 768px;
   grid-template-rows: 30% auto;
   grid-template-columns: repeat(8, 1fr);
 
-  background-image: url("../public/drunk_boy.svg");
-  background-repeat: no-repeat;
-  background-position: -13%;
-  filter: opacity(80%);
-
   @media screen and (max-width: $breakpointLg) {
     overflow: visible;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 10% 71% auto;
-    background-position: center;
-    background-size: contain;
   }
 }
 
@@ -30,10 +23,6 @@ $breakpointMd: 768px;
   @media screen and (max-width: $breakpointLg) {
     grid-column: 1;
     grid-row: 3;
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: center;
   }
 }
 
@@ -53,6 +42,18 @@ $breakpointMd: 768px;
   }
 }
 
+.imageBlog {
+  left: -70rem !important;
+
+  @media screen and (max-width: 1200px) {
+    left: -50rem !important;
+  }
+
+  @media screen and (max-width: $breakpointLg) {
+    left: unset !important;
+  }
+}
+
 .homeTitleText {
   font-size: 78px;
   font-weight: 100;
@@ -68,7 +69,7 @@ $breakpointMd: 768px;
   }
 
   @media screen and (max-width: $breakpointMd) {
-    font-size: 30px;
+    font-size: 23px;
   }
 }
 
@@ -79,5 +80,6 @@ $breakpointMd: 768px;
 
   @media screen and (max-width: $breakpointLg) {
     position: static;
+    font-size: 14px;
   }
 }

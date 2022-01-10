@@ -177,7 +177,7 @@ const OneArticlePage: NextPage<Props> = ({
 
   return (
     <>
-      <Stack height={"100vh"}>
+      <Stack height={{ lg: "100vh", sm: "100%", base: "100%" }}>
         <Grid
           templateColumns={{ lg: "repeat(2, 1fr)", sm: "repeat(1, 1fr)" }}
           height={"100%"}

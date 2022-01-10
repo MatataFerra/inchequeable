@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <title>IQL | Andá a saber de dónde salió</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Box as="main" overflow="hidden">
+        <Box as="main" overflow="hidden" padding={{ lg: 0, sm: 4, base: 4 }}>
           <Component {...pageProps} />
         </Box>
       </ArticlesContext.Provider>

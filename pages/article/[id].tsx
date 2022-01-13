@@ -291,6 +291,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     const randomNumber = Math.floor(Math.random() * 10);
 
+    console.log(article.createdAt);
+
     return {
       props: {
         id: true,
@@ -298,7 +300,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         title: article.title,
         content: article.content,
         link: article.link,
-        createdAt: JSON.stringify(article.createdAt),
+        createdAt: article.createdAt.toString(),
         randomNumberToChangeBG: Math.abs(randomNumber),
       },
     };

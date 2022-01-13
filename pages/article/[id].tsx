@@ -63,7 +63,7 @@ const OneArticlePage: NextPage<Props> = ({
 
   const { state, dispatch } = useContext(ArticlesContext);
 
-  const dateFormatted = useDateFormatter(JSON?.parse(createdAt));
+  const dateFormatted = useDateFormatter(createdAt);
 
   useEffect(() => {
     if (state.articles.length === 0) {

@@ -53,18 +53,20 @@ export const Cards: FC<Props> = ({ title, author, subtitle, id, index, createdAt
         >
           {subtitle}
         </Text>
-        <Text fontStyle={"italic"} color={"secondary.500"} fontSize={12} fontWeight={"700"}>
-          creador/a:
-          <Text as="span" color={"#1b1b1b"} fontWeight={"900"} ml={2}>
-            {author.length > 0 ? author : "Anónimo"}
+        <Stack spacing={4} direction={"row"}>
+          <Text fontStyle={"italic"} color={"secondary.500"} fontSize={12} fontWeight={"700"}>
+            creador/a:
+            <Text as="span" color={"#1b1b1b"} fontWeight={"900"} ml={2}>
+              {author.length > 0 ? author : "Anónimo"}
+            </Text>
           </Text>
-        </Text>
-        <Text fontStyle={"italic"} color={"secondary.500"} fontSize={12} fontWeight={"700"}>
-          Subido el:
-          <Text as="span" color={"#1b1b1b"} fontWeight={"900"} ml={2}>
-            {date}
+          <Text fontStyle={"italic"} color={"secondary.500"} fontSize={12} fontWeight={"700"}>
+            Subido el:
+            <Text as="span" color={"#1b1b1b"} fontWeight={"900"} ml={2}>
+              {date}
+            </Text>
           </Text>
-        </Text>
+        </Stack>
       </Stack>
     </Stack>
   );

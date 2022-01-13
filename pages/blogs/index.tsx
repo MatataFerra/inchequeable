@@ -47,7 +47,7 @@ const Blogs: NextPage = () => {
         <Stack
           spacing={3}
           padding={4}
-          height={"80%"}
+          height={"75%"}
           width={{ lg: 700, md: "100%" }}
           overflowY={"scroll"}
         >

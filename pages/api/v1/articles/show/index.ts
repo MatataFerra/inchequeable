@@ -41,6 +41,7 @@ export default async function showHideArticles(
 
       db(process.env.MONGO_URI, res);
       Article.find({})
+        .sort({ createdAt: -1 })
         .then((data) => {
           return resolve(
             res.status(200).json({

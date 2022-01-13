@@ -42,7 +42,7 @@ const Blogs: NextPage = () => {
           <a style={{ fontStyle: "italic" }}>Volver</a>
         </Link>
       </GridItem>
-      <GridItem colStart={1} rowStart={1} zIndex={999}>
+      <GridItem colStart={1} rowStart={1} zIndex={999} marginTop={{ sm: 8, base: 8 }}>
         <Text fontSize={{ lg: 48, sm: 42, base: 36 }}> Lo inchequeable </Text>
         <Stack
           spacing={3}
@@ -59,6 +59,7 @@ const Blogs: NextPage = () => {
                   title={blog.title}
                   author={blog.author}
                   subtitle={blog.subtitle}
+                  createdAt={blog.createdAt}
                   id={blog._id}
                   index={index}
                 />

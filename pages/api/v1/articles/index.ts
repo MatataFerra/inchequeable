@@ -13,6 +13,7 @@ export default async function getArticles(req: NextApiRequest, res: NextApiRespo
   if (req.method === "GET") {
     db(process.env.MONGO_URI, res);
     await Article.find({ show: true })
+      .sort({ createdAt: -1 })
       .then((data) => {
         return res.status(200).json({
           message: "List of articles",

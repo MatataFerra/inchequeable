@@ -5,6 +5,7 @@ import { Stack } from "@chakra-ui/react";
 import styles from "../styles/home.module.scss";
 import Body from "../src/home/components/Body";
 import Title from "../src/home/components/Title";
+import { SocialMedia } from "../src/home/components/SocialMedia";
 
 const Home: NextPage = () => {
   return (
@@ -21,6 +22,8 @@ const Home: NextPage = () => {
           />
         </div>
       </Stack>
+
+      <SocialMedia />
     </div>
   );
 };

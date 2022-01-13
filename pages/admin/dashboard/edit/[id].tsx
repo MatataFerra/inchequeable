@@ -16,11 +16,11 @@ import { useState, ChangeEvent, useEffect } from "react";
 
 import { connectDBWithoutRes } from "../../../../mongo/client";
 import { getCookieAndValidateOnClientToken } from "../../../../src/helpers/auth/cookies";
-import { parseDate } from "../../../../src/helpers/dateFormatter";
 import { fetchData } from "../../../../src/helpers/fetchData";
 import Article from "../../../../src/models/Article";
 import { SideBar } from "../../../../src/dashboard/components/SideBar";
 import { SpinnerLoader } from "../../../../src/dashboard/components/Spinner";
+import { useDateFormatter } from "../../../../src/hooks/useDateFormatter";
 
 interface Props {
   id?: string;
@@ -52,9 +52,7 @@ const EditOneArticle: NextPage<Props> = ({
     show,
   });
 
-  useEffect(() => {
-    console.log(updateArticle.show);
-  }, [updateArticle.show]);
+  const dateFormatted = useDateFormatter(createdAt);
 
   useEffect(() => {
     getCookieAndValidateOnClientToken({ secure: true })
@@ -96,6 +94,12 @@ const EditOneArticle: NextPage<Props> = ({
       });
     }
   }, [title, subtitle, content, link, router, toast]);
+
+  useEffect(() => {
+    show
+      ? setUpdateArticle({ ...updateArticle, show: true })
+      : setUpdateArticle({ ...updateArticle, show: false });
+  }, [show, updateArticle]);
 
   if (router.isFallback) {
     return <SpinnerLoader />;
@@ -169,9 +173,6 @@ const EditOneArticle: NextPage<Props> = ({
       });
     }
   };
-
-  const date = JSON?.parse(createdAt);
-  const dateFormatted = parseDate(date);
 
   return (
     <Grid templateColumns={"auto 1fr"} gap={4}>

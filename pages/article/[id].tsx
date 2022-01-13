@@ -14,9 +14,9 @@ import NextLink from "next/link";
 import { useContext, useEffect, useState } from "react";
 import reactStringReplace from "react-string-replace";
 
+import { useDateFormatter } from "../../src/hooks/useDateFormatter";
 import { connectDBWithoutRes } from "../../mongo/client";
 import Article from "../../src/models/Article";
-import { parseDate } from "../../src/helpers/dateFormatter";
 import { HeartIcon } from "../../src/icons/Heart";
 import { ArticlesContext } from "../../src/context/provider";
 import { stringOrNumber, Card_Props } from "../../types/types";
@@ -62,6 +62,8 @@ const OneArticlePage: NextPage<Props> = ({
   const [colorHeart, setColorHeart] = useState("transparent");
 
   const { state, dispatch } = useContext(ArticlesContext);
+
+  const dateFormatted = useDateFormatter(createdAt);
 
   useEffect(() => {
     if (state.articles.length === 0) {
@@ -171,9 +173,6 @@ const OneArticlePage: NextPage<Props> = ({
       }
     }
   };
-
-  const date = JSON?.parse(createdAt);
-  const dateFormatted = parseDate(date);
 
   return (
     <>

@@ -3,6 +3,7 @@ import {
   Box,
   Grid,
   GridItem,
+  HStack,
   Link,
   SkeletonCircle,
   SkeletonText,
@@ -26,6 +27,7 @@ import { getIpUser, userHasBeenLided } from "../../src/helpers/likedArticle";
 import { setArticles } from "../../src/context/actions/articlesActions";
 import { SkelletonArticle } from "../../src/articles/components/SkelettonArticle";
 import { MessageLike } from "../../src/articles/components/MessageLike";
+import { FacebookButton, WhatsappButton } from "../../src/articles/components/Share";
 
 interface Props {
   id: string;
@@ -88,11 +90,9 @@ const OneArticlePage: NextPage<Props> = ({
           res.data.article.map(
             (article: { _id: string }) => article._id === _id && setUserLikedArticle(true),
           );
-
-          setLoadingLike(true);
-        } else {
-          setLoadingLike(true);
         }
+
+        setLoadingLike(true);
       })
       .catch((err: unknown) => {
         console.log(err);
@@ -190,11 +190,11 @@ const OneArticlePage: NextPage<Props> = ({
             }
             backgroundRepeat={"no-repeat"}
             filter={"opacity(0.5)"}
-            backgroundSize={{ xl: "36rem", lg: "30rem" }}
+            backgroundSize={"contain"}
             display={{ lg: "block", base: "none" }}
             backgroundPosition={"center"}
           />
-          <GridItem padding={4}>
+          <GridItem padding={4} height={{ lg: "36rem", sm: "100%", base: "100%" }}>
             <Stack direction={"row"} justifyContent={"space-between"}>
               <Box>
                 <NextLink href={"/blogs"}> Volver</NextLink>
@@ -204,21 +204,23 @@ const OneArticlePage: NextPage<Props> = ({
               </Box>
             </Stack>
             <Stack marginTop={4}>
-              <Text fontSize={"2xl"}>{title}</Text>
-              <Text fontSize={12}>
-                fuente:
-                <Link
-                  href={link}
-                  color={"secondary.500"}
-                  marginLeft={2}
-                  target={"_blank"}
-                  fontStyle={"italic"}
-                  isTruncated
-                >
-                  Click para ir a la fuente
-                </Link>
-              </Text>
-              <Text fontSize={12}> fecha de creación: {dateFormatted} </Text>
+              <Stack height={"8rem"}>
+                <Text fontSize={"2xl"}>{title}</Text>
+                <Text fontSize={12}>
+                  fuente:
+                  <Link
+                    href={link}
+                    color={"secondary.500"}
+                    marginLeft={2}
+                    target={"_blank"}
+                    fontStyle={"italic"}
+                    isTruncated
+                  >
+                    Click para ir a la fuente
+                  </Link>
+                </Text>
+                <Text fontSize={12}> fecha de creación: {dateFormatted} </Text>
+              </Stack>
               <Stack
                 overflowY={"scroll"}
                 height={{ lg: "20rem", base: "30rem" }}
@@ -230,39 +232,42 @@ const OneArticlePage: NextPage<Props> = ({
                   ))}
                 </Text>
               </Stack>
-              {!loadingLike ? (
-                <Stack
-                  width={"fit-content"}
-                  direction={"row"}
-                  spacing={4}
-                  alignItems={"center"}
-                  marginTop={"1.5rem !important"}
-                  transition={"all 0.3s ease-in-out"}
-                >
-                  <SkeletonCircle width={6} height={6} />
-                  <SkeletonText noOfLines={1} width={20} />
-                </Stack>
-              ) : (
-                <Stack
-                  width={"fit-content"}
-                  direction={"row"}
-                  spacing={4}
-                  alignItems={"center"}
-                  marginTop={"1.5rem !important"}
-                  transition={"all 0.3s ease-in-out"}
-                >
-                  <HeartIcon
-                    color={colorHeart}
-                    width={6}
-                    height={6}
-                    transition={"ease-in-out 0.2s color"}
-                    stroke={"#474747"}
-                    onClick={handleLike}
-                  />
+              <Stack
+                width={"100%"}
+                direction={"row"}
+                spacing={4}
+                alignItems={"center"}
+                marginTop={"1.5rem !important"}
+                transition={"all 0.3s ease-in-out"}
+                justifyContent={"space-between"}
+              >
+                {!loadingLike ? (
+                  <HStack>
+                    <SkeletonCircle width={6} height={6} />
+                    <SkeletonText noOfLines={1} width={20} />
+                  </HStack>
+                ) : (
+                  <>
+                    <HStack>
+                      <HeartIcon
+                        color={colorHeart}
+                        width={6}
+                        height={6}
+                        transition={"ease-in-out 0.2s color"}
+                        stroke={"#474747"}
+                        onClick={handleLike}
+                      />
 
-                  <MessageLike state={userLikedArticle} />
-                </Stack>
-              )}
+                      <MessageLike state={userLikedArticle} />
+                    </HStack>
+                  </>
+                )}
+
+                <HStack>
+                  <FacebookButton id={_id} />
+                  <WhatsappButton id={_id} />
+                </HStack>
+              </Stack>
             </Stack>
           </GridItem>
         </Grid>
@@ -271,9 +276,16 @@ const OneArticlePage: NextPage<Props> = ({
   );
 };
 
-export const getStaticPaths: GetStaticPaths = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const article = await fetchData(`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/articles`);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const paths = article.data.map((post: any) => ({
+    params: { id: post._id },
+  }));
+
   return {
-    paths: [{ params: { id: "1" } }],
+    paths: paths,
     fallback: true,
   };
 };
@@ -282,8 +294,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   connectDBWithoutRes(process.env.MONGO_URI);
 
   try {
-    const id: string | unknown = params?.id?.toString();
-    const article = await Article.findById(id);
+    const article = await Article.findById(params?.id);
 
     if (!article) {
       return { props: { id: null } };
@@ -291,18 +302,18 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     const randomNumber = Math.floor(Math.random() * 10);
 
-    console.log(article.createdAt);
-
     return {
       props: {
         id: true,
-        _id: id,
+        _id: params?.id,
         title: article.title,
         content: article.content,
         link: article.link,
         createdAt: article.createdAt.toString(),
         randomNumberToChangeBG: Math.abs(randomNumber),
       },
+
+      revalidate: 1,
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any | unknown | never) {

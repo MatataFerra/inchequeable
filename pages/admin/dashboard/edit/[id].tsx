@@ -251,9 +251,20 @@ const EditOneArticle: NextPage<Props> = ({
   );
 };
 
-export const getStaticPaths: GetStaticPaths = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const article = await fetchData(`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/articles`);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const paths = article.data.map((post: any) => {
+    console.log(post._id);
+
+    return {
+      params: { id: post._id },
+    };
+  });
+
   return {
-    paths: [{ params: { id: "1" } }],
+    paths: paths,
     fallback: true,
   };
 };
@@ -281,6 +292,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         show: article.show,
         createdAt: JSON.stringify(article.createdAt),
       },
+
+      revalidate: 1,
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any | unknown | never) {

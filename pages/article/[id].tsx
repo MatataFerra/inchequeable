@@ -27,7 +27,12 @@ import { getIpUser, userHasBeenLided } from "../../src/helpers/likedArticle";
 import { setArticles } from "../../src/context/actions/articlesActions";
 import { SkelletonArticle } from "../../src/articles/components/SkelettonArticle";
 import { MessageLike } from "../../src/articles/components/MessageLike";
-import { FacebookButton, WhatsappButton } from "../../src/articles/components/Share";
+import {
+  FacebookButton,
+  LinkedinButton,
+  TwitterButton,
+  WhatsappButton,
+} from "../../src/articles/components/Share";
 
 interface Props {
   id: string;
@@ -204,7 +209,7 @@ const OneArticlePage: NextPage<Props> = ({
               </Box>
             </Stack>
             <Stack marginTop={4}>
-              <Stack height={"8rem"}>
+              <Stack height={{ lg: "8rem", sm: "100%", base: "100%" }}>
                 <Text fontSize={"2xl"}>{title}</Text>
                 <Text fontSize={12}>
                   fuente:
@@ -266,6 +271,8 @@ const OneArticlePage: NextPage<Props> = ({
                 <HStack>
                   <FacebookButton id={_id} />
                   <WhatsappButton id={_id} />
+                  <LinkedinButton id={_id} />
+                  <TwitterButton id={_id} />
                 </HStack>
               </Stack>
             </Stack>
@@ -280,9 +287,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const article = await fetchData(`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/articles`);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const paths = article.data.map((post: any) => ({
-    params: { id: post._id },
-  }));
+  const paths = article.data.map((post: any) => {
+    console.log(post._id);
+
+    return {
+      params: { id: post._id },
+    };
+  });
 
   return {
     paths: paths,

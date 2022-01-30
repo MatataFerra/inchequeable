@@ -38,7 +38,7 @@ export default async function getIpUser(req: NextApiRequest, res: NextApiRespons
         data: oneip,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
       return res.status(500).json({
         message: "Internal server error",

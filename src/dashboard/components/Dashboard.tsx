@@ -1,4 +1,12 @@
-import { Container, Grid, HStack, Stack, Text } from "@chakra-ui/react";
+import {
+  CircularProgress,
+  CircularProgressLabel,
+  Container,
+  Grid,
+  HStack,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { FC, useContext } from "react";
 import Image from "next/image";
 
@@ -19,7 +27,7 @@ export const DashboardScreen: FC = () => {
   return (
     <Grid templateColumns={"auto 1fr"}>
       <SideBar />
-      <Stack spacing={4} height={"100vh"} padding={8}>
+      <Stack spacing={4} height={"100vh"} padding={{ lg: 8, sm: 2, base: 2 }}>
         <HStack spacing={4} width={"fit-content"}>
           <Text fontSize={36} fontStyle={"italic"}>
             Hola Dios Admin
@@ -50,7 +58,9 @@ export const DashboardScreen: FC = () => {
               })
           ) : (
             <Container fontSize={32} display={"grid"} placeContent={"center"} height={"100%"}>
-              No hay artículos cargados...
+              <CircularProgress isIndeterminate color="green.300" size={"90px"} thickness="4px">
+                <CircularProgressLabel fontSize={8}>Cargando...</CircularProgressLabel>
+              </CircularProgress>
             </Container>
           )}
         </Stack>

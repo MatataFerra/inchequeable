@@ -69,7 +69,7 @@ const EditOneArticle: NextPage<Props> = ({
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
 
         toast({
           title: "Hubo un error en la sesión",
@@ -163,7 +163,7 @@ const EditOneArticle: NextPage<Props> = ({
         });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast({
         title: "Error",
         description: "No se pudo actualizar el artículo",
@@ -256,8 +256,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const paths = article.data.map((post: any) => {
-    console.log(post._id);
-
     return {
       params: { id: post._id },
     };
@@ -297,7 +295,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any | unknown | never) {
-    console.log("Ocurrio un error", error.message);
+    console.error("Ocurrio un error", error.message);
 
     return {
       props: {

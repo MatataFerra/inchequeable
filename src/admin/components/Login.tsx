@@ -41,7 +41,7 @@ export const Login: FC = () => {
       setCookies("token", data.data, { maxAge: 60 * 60 * 24, secure: true });
       router.push("/admin/dashboard");
     } else {
-      console.log(data);
+      console.info(data);
       setErrorSubmit(true);
     }
 

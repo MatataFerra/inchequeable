@@ -65,8 +65,8 @@ export default async function login(req: NextApiRequest, res: NextApiResponse<Js
       data: token,
     });
   } catch (error) {
-    console.log("Has an error on auth controller");
-    console.log(error);
+    console.error("Has an error on auth controller");
+    console.error(error);
     res.status(500).json({
       ok: false,
       message: "Hubo un error a la hora de loggearte",

@@ -62,7 +62,7 @@ export default async function createArticles(
           );
         })
         .catch((error: any) => {
-          console.log(error);
+          console.error(error);
 
           return resolve(
             res.status(500).json({

@@ -1,18 +1,69 @@
-import { useState, useEffect } from "react";
-import _ from "lodash";
+import { useState, useEffect, useCallback } from "react";
 
-export const useFetch = (url: string, options?: RequestInit) => {
-  const [state, setState] = useState<unknown>(null);
+import { fetchData } from "../helpers/fetchData";
+
+interface ResponseState {
+  data: [];
+  message: string;
+  ok: boolean;
+}
+
+export const useFetch = (url: string, options?: RequestInit): ResponseState => {
+  const [state, setState] = useState<ResponseState>({
+    data: [],
+    message: "",
+    ok: false,
+  });
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const data = async (url: string, options?: RequestInit) => {
+    if (url.trim() === "") {
+      setLoading(true);
+
+      return setState({
+        data: [],
+        message: "No url",
+        ok: false,
+      });
+    }
+
+    try {
+      const response = await fetchData(url, options);
+
+      if (!response.ok) {
+        setLoading(true);
+
+        return setState({
+          data: [],
+          message: response.message,
+          ok: false,
+        });
+      }
+
+      setLoading(true);
+
+      return setState(response);
+    } catch (error) {
+      console.error(error);
+
+      setState({
+        data: [],
+        message: "Ocurrió un error",
+        ok: false,
+      });
+    }
+  };
+
+  const dataMemo = useCallback(() => {
+    data(url, options);
+  }, [url, options]);
 
   useEffect(() => {
-    _.isEmpty(options)
-      ? fetch(url, options)
-          .then((response) => response.json())
-          .then((data) => setState(data))
-      : fetch(url)
-          .then((response) => response.json())
-          .then((data) => setState(data));
-  }, [url, options]);
+    if (!loading) {
+      dataMemo();
+    }
+  }, [dataMemo, loading]);
 
   return state;
 };

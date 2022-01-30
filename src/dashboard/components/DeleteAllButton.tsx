@@ -38,7 +38,7 @@ export const DeleteAllButton: FC<Props> = ({ articlesLen }) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
       toast({
         title: "Error al eliminar el artículo",

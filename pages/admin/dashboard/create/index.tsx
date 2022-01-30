@@ -35,7 +35,7 @@ const CreateArticle: NextPage = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
 
         toast({
           title: "Hubo un error en la sesión",

@@ -31,7 +31,7 @@ const Blogs: NextPage = () => {
 
   return (
     <Grid
-      padding={{ lg: 8, sm: 0, base: 0 }}
+      padding={{ lg: 8, sm: 4, base: 4 }}
       templateColumns={{ lg: "repeat(2, 1fr)", md: "1fr" }}
       templateRows={{ lg: "repeat(2, 1fr)", md: "1fr" }}
       rowGap={4}

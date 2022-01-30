@@ -20,7 +20,7 @@ export const validateJwt =
         });
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
       return res.status(401).json({
         ok: false,
@@ -43,14 +43,14 @@ export const generateJwt = (uid: string | number, name: string) => {
         },
         (err, token) => {
           if (err) {
-            console.log(err);
+            console.error(err);
             reject("No se pudo generar el token");
           }
           resolve(token);
         },
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
       return reject("Hubo un error a la hora de generar el token");
     }

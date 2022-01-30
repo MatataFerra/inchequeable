@@ -22,7 +22,7 @@ export default async function getArticles(req: NextApiRequest, res: NextApiRespo
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
 
         return res.status(400).json({
           message: "Hubo un error a la hora de hacer la petición",

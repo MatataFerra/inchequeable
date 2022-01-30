@@ -58,7 +58,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
           <link rel="canonical" href="%PUBLIC_URL%" />
         </Head>
-        <Box as="main" overflow="hidden" padding={{ lg: 0, sm: 4, base: 4 }}>
+        <Box as="main" overflow="hidden">
           <Component {...pageProps} />
         </Box>
       </ArticlesContext.Provider>

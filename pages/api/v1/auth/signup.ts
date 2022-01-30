@@ -84,7 +84,7 @@ export default async function login(req: NextApiRequest, res: NextApiResponse<Js
       data: { newUser, token },
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return res.status(500).json({
       ok: false,

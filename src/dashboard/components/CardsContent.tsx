@@ -77,7 +77,7 @@ export const CardContent: FC<Props> = ({
           });
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
 
         toast({
           title: "Error al eliminar el artículo",

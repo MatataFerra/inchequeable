@@ -11,7 +11,7 @@ export const checkRegExp = (email: string): string | boolean => {
 
     return email;
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     return false;
   }

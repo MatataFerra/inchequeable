@@ -80,7 +80,7 @@ const OneArticlePage: NextPage<Props> = ({
         })
 
         .catch((err: unknown) => {
-          console.log(err);
+          console.error(err);
         });
     }
   }, [dispatch, state.articles.length]);
@@ -100,9 +100,9 @@ const OneArticlePage: NextPage<Props> = ({
         setLoadingLike(true);
       })
       .catch((err: unknown) => {
-        console.log(err);
+        console.error(err);
 
-        console.log(
+        console.info(
           "Waiting for connection, if error persists, check your internet connection or try again later",
         );
       });
@@ -288,8 +288,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const paths = article.data.map((post: any) => {
-    console.log(post._id);
-
     return {
       params: { id: post._id },
     };
@@ -328,7 +326,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any | unknown | never) {
-    console.log("Ocurrio un error", error.message);
+    console.error("Ocurrio un error", error.message);
 
     return {
       props: {

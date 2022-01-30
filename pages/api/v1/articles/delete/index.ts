@@ -51,7 +51,7 @@ export default async function deleteAllArticles(
           );
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
 
           return resolve(
             res.status(500).json({

@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { FC } from "react";
 import { removeCookies } from "cookies-next";
 
+import { StatsIcon } from "../../icons/Stats";
+
 const iconMeasure = "20px";
 
 export const SideBar: FC = () => {
@@ -31,6 +33,10 @@ export const SideBar: FC = () => {
     });
   };
 
+  const handleStats = () => {
+    router.push("/admin/dashboard/stats");
+  };
+
   return (
     <Stack
       height={"100vh"}
@@ -56,6 +62,12 @@ export const SideBar: FC = () => {
             height={iconMeasure}
             onClick={handleBack}
           />
+        </Tooltip>
+
+        <Tooltip hasArrow label="Estadísticas" placement="right" bg="gray.300" color="black">
+          <Box cursor={"pointer"} onClick={handleStats}>
+            <StatsIcon width={iconMeasure} height={iconMeasure} />
+          </Box>
         </Tooltip>
       </Stack>
       <Box>

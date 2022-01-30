@@ -1,6 +1,8 @@
 import mongoose, { ConnectOptions } from "mongoose";
 import { NextApiResponse } from "next";
 
+let countConnections: number = 0;
+
 export const db = async (uri: string, res: NextApiResponse) => {
   const options: ConnectOptions = {
     dbName: "inchequeable",
@@ -8,7 +10,8 @@ export const db = async (uri: string, res: NextApiResponse) => {
 
   try {
     if (mongoose.connection.readyState === 1) {
-      console.log("Already connected to database");
+      countConnections++;
+      console.info(`Already connected to database, count: ${countConnections}`);
 
       return;
     }
@@ -16,7 +19,7 @@ export const db = async (uri: string, res: NextApiResponse) => {
     const connection = await mongoose.connect(uri, options);
 
     if (connection) {
-      console.log("MongoDB connected");
+      console.info("MongoDB connected");
 
       return connection;
     } else if (!connection) {
@@ -29,7 +32,7 @@ export const db = async (uri: string, res: NextApiResponse) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return {
       message: "Ha ocurrido un error al conectar con MongoDB",
@@ -43,9 +46,9 @@ export const disconnectDB = async () => {
   try {
     await mongoose.connection.close();
 
-    console.log("MongoDB disconnected");
+    console.info("MongoDB disconnected");
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return {
       message: "Ha ocurrido un error al desconectar con MongoDB",
@@ -64,7 +67,7 @@ export const connectDBWithoutRes = async (uri: string) => {
     const connection = await mongoose.connect(uri, options);
 
     if (connection) {
-      console.log("MongoDB connected");
+      console.info("MongoDB connected");
 
       return connection;
     } else if (!connection) {
@@ -77,7 +80,7 @@ export const connectDBWithoutRes = async (uri: string) => {
       };
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return {
       message: "Ha ocurrido un error al conectar con MongoDB",

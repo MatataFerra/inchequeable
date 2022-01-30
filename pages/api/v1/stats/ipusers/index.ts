@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { db } from "../../../../../mongo/client";
 import { validateClientJwt } from "../../../../../src/helpers/auth/jwt";
-import Article from "../../../../../src/models/Article";
+import IpUsers from "../../../../../src/models/IpUsers";
 import { DataResponse } from "../../../../../types/types";
 
 type JsonResponse = {
@@ -40,12 +40,11 @@ export default async function showHideArticles(
       }
 
       db(process.env.MONGO_URI, res);
-      Article.find({})
-        .sort({ createdAt: -1 })
+      IpUsers.find({}, { ipv4: 1, country: 1, article: 1, _id: 0 })
         .then((data) => {
           return resolve(
             res.status(200).json({
-              message: "List of articles",
+              message: "List of Ips",
               ok: true,
               data: data,
             }),

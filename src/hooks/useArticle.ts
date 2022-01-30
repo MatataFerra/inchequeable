@@ -30,7 +30,7 @@ export const useArticles = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }, [token]);
 

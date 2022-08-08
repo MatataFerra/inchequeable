@@ -2,32 +2,24 @@ import { Grid, GridItem, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 
 import { Card_Props } from "../../types/types";
 import { setArticles } from "../../src/context/actions/articlesActions";
 import { ArticlesContext } from "../../src/context/provider";
 import { Cards } from "../../src/blogs/components/Cards";
 import { SpinnerLoader } from "../../src/dashboard/components/Spinner";
-import { useFetch } from "../../src/hooks/useFetch";
-
-type ResponseArticles = {
-  message: string;
-  ok: boolean;
-  data: Card_Props[];
-};
+import { useBlog } from "../../src/hooks/useBlogs";
 
 const Blogs: NextPage = () => {
-  const articles = useFetch("api/v1/articles") as ResponseArticles;
-  const [loading, setLoading] = useState<boolean>(true);
+  const { blogs, isLoading } = useBlog("/v1/articles");
   const { dispatch } = useContext(ArticlesContext);
 
   useEffect(() => {
-    if (articles?.data?.length > 0) {
-      setLoading(false);
-      dispatch(setArticles(articles.data));
+    if (blogs.length > 0) {
+      dispatch(setArticles(blogs));
     }
-  }, [dispatch, articles?.data]);
+  }, [blogs, dispatch]);
 
   return (
     <Grid
@@ -47,12 +39,13 @@ const Blogs: NextPage = () => {
         <Stack
           spacing={3}
           padding={4}
-          height={"75%"}
+          height={"450px"}
           width={{ lg: 700, md: "100%" }}
           overflowY={"scroll"}
+          className="scrollbar--thin"
         >
-          {!loading ? (
-            articles?.data?.map((blog: Card_Props, index: number) => {
+          {!isLoading ? (
+            blogs.map((blog: Card_Props, index: number) => {
               return (
                 <Cards
                   key={index}
@@ -78,7 +71,7 @@ const Blogs: NextPage = () => {
         display={"flex"}
         justifyContent={"center"}
       >
-        <Skeleton isLoaded={!loading}>
+        <Skeleton isLoaded={!isLoading}>
           <Image src="/typing.svg" alt="typing something" width={600} height={600} />
         </Skeleton>
       </GridItem>

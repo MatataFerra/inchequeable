@@ -75,7 +75,7 @@ const EditOneArticle: NextPage<Props> = ({
           title: "Hubo un error en la sesión",
           description: "Por seguridad serás redirigido a la página de inicio",
           status: "error",
-          duration: 2000,
+          duration: 1000,
           isClosable: false,
           onCloseComplete: () => router.push("/admin"),
         });
@@ -95,11 +95,11 @@ const EditOneArticle: NextPage<Props> = ({
     }
   }, [title, subtitle, content, link, router, toast]);
 
-  useEffect(() => {
-    show
-      ? setUpdateArticle({ ...updateArticle, show: true })
-      : setUpdateArticle({ ...updateArticle, show: false });
-  }, [show, updateArticle]);
+  // useEffect(() => {
+  //   show
+  //     ? setUpdateArticle({ ...updateArticle, show: true })
+  //     : setUpdateArticle({ ...updateArticle, show: false });
+  // }, [show, updateArticle]);
 
   if (router.isFallback) {
     return <SpinnerLoader />;
@@ -147,9 +147,9 @@ const EditOneArticle: NextPage<Props> = ({
       if (response.ok) {
         toast({
           title: "Artículo actualizado",
-          description: "Serás redireccionado a la página principal en 3 segundos",
+          description: "Serás redireccionado a la página principal",
           status: "success",
-          duration: 3000,
+          duration: 1000,
           isClosable: true,
           onCloseComplete: () => router.push("/admin/dashboard"),
         });
@@ -158,7 +158,7 @@ const EditOneArticle: NextPage<Props> = ({
           title: "Error",
           description: "No se pudo actualizar el artículo",
           status: "error",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         });
       }
@@ -214,7 +214,7 @@ const EditOneArticle: NextPage<Props> = ({
         <Text fontSize={12}> fecha de creación: {dateFormatted} </Text>
         <Stack
           overflowY={"scroll"}
-          height={{ lg: "20rem", base: "30rem" }}
+          height={{ md: "20rem", base: "auto" }}
           marginTop={"1.5rem !important"}
         >
           <Textarea
@@ -232,7 +232,7 @@ const EditOneArticle: NextPage<Props> = ({
           <Button minWidth={"7rem"} width={"10rem"} onClick={handleUpdate}>
             Actualizar
           </Button>
-          <Tooltip label="Si está activo el artículo se muestra">
+          <Tooltip placement="left" label="Si está activo el artículo se muestra">
             <Stack direction={"row"} spacing={4} paddingRight={4}>
               <Text>Mostrar?</Text>
               <Switch
@@ -288,7 +288,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         content: article.content,
         link: article.link,
         show: article.show,
-        createdAt: JSON.stringify(article.createdAt),
+        createdAt: article.createdAt.toString(),
       },
 
       revalidate: 1,

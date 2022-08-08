@@ -55,9 +55,7 @@ const ChartsScreen: NextPage = () => {
         const labels = ipsCount && Object.keys(ipsCount);
         const data = ipsCount && Object.values(ipsCount);
 
-        console.log({ data });
         setIpData(data);
-
         setipLabels(labels);
       })
       .catch((err) => console.log(err));
@@ -72,9 +70,7 @@ const ChartsScreen: NextPage = () => {
 
     fetch("/api/v1/stats/likes", op)
       .then((res) => res.json())
-      .then((res: DataResponse<DataFromServer>) => {
-        setData(res.data);
-      })
+      .then((res: DataResponse<DataFromServer>) => setData(res.data))
       .catch((err) => console.log(err));
   }, [token]);
 

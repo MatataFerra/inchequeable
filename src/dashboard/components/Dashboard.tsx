@@ -36,7 +36,7 @@ export const DashboardScreen: FC = () => {
         </HStack>
         <Search />
         <DeleteAllButton articlesLen={getArticles.length} />
-        <Stack spacing={3} height={"80%"} overflowY={"scroll"}>
+        <Stack spacing={3} height={"80%"} overflowY={"scroll"} className="scrollbar--thin">
           {getArticles.length > 0 ? (
             getArticles
               .filter((article) => {

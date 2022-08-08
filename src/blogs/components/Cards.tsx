@@ -17,9 +17,7 @@ interface Props {
 
 export const Cards: FC<Props> = ({ title, author, subtitle, id, index, createdAt }) => {
   const router = useRouter();
-
   const order = typeof index === "number" ? index + 1 : "";
-
   const date = useDateFormatter(createdAt);
 
   const handleOpenArticle: MouseEventHandler<HTMLDivElement> = (

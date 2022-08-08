@@ -1,11 +1,14 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { parseDate } from "../helpers/dateFormatter";
 
-export const useDateFormatter = (date: number | string): string | number | Date => {
+export const useDateFormatter = (date: number | string): string => {
+  const [dateState, setdateState] = useState("");
   const dateFormatted = useCallback(() => parseDate(date), [date]);
 
-  const getDate = useMemo(() => dateFormatted(), [dateFormatted]);
+  useEffect(() => {
+    setdateState(dateFormatted());
+  }, [dateFormatted]);
 
-  return getDate;
+  return dateState;
 };

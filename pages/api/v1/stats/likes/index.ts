@@ -40,7 +40,7 @@ export default async function showHideArticles(
       }
 
       db(process.env.MONGO_URI, res);
-      Article.find({}, { likes: 1, title: 1, show: 1 })
+      Article.find({ show: true }, { likes: 1, title: 1, _id: 0 })
         .then((data) => {
           return resolve(
             res.status(200).json({

@@ -13,24 +13,17 @@ export default async function updateArticles(
   req: NextApiRequest,
   res: NextApiResponse<JsonResponse>,
 ) {
-  if (req.method !== "PUT") {
-    return res.status(405).json({
-      message: "Method not allowed",
-      ok: false,
-      data: null,
-    });
-  }
-
   if (req.method === "PUT") {
     const id = req.query.id;
 
     db(process.env.MONGO_URI, res);
 
-    const ipUser = await IpUsers.findByIdAndUpdate(id, {
-      $push: {
-        article: req.body.article,
-      },
-    });
+    const ipUser = await IpUsers.findById(id);
+
+    if (ipUser) {
+      ipUser.article.push(req.body.article);
+      await ipUser.save();
+    }
 
     if (!ipUser) {
       return res.status(404).json({
@@ -46,4 +39,10 @@ export default async function updateArticles(
       data: ipUser,
     });
   }
+
+  return res.status(405).json({
+    message: "Method not allowed",
+    ok: false,
+    data: null,
+  });
 }

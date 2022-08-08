@@ -1,4 +1,4 @@
-export const parseDate = (date: number | string): string | number | Date => {
+export const parseDate = (date: number | string): string => {
   const dateParsed = new Date(date).toLocaleDateString("es-AR", {
     year: "numeric",
     month: "2-digit",

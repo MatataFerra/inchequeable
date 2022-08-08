@@ -4,14 +4,11 @@ import { Box, ChakraProvider } from "@chakra-ui/react";
 import Head from "next/head";
 import { useReducer } from "react";
 
-import theme from "../theme";
-// eslint-disable-next-line import/order
 import { ArticlesContext } from "../src/context/provider";
-
+import { articlesReducer, initialArticlesState } from "../src/context/reducers/articlesReducer";
+import theme from "../theme";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/100.css";
-
-import { articlesReducer, initialArticlesState } from "../src/context/reducers/articlesReducer";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [state, dispatch] = useReducer(articlesReducer, initialArticlesState);

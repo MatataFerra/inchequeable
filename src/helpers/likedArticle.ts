@@ -8,6 +8,8 @@ export const userHasBeenLided = async (
 ) => {
   const foundIpofUser = await getIpUser(ipv4);
 
+  console.log({ foundIpofUser });
+
   if (foundIpofUser.data !== null) {
     const options = {
       method: "PUT",

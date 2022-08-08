@@ -91,7 +91,13 @@ export const CardContent: FC<Props> = ({
   };
 
   return (
-    <Stack spacing={2} width={"100%"} height={"100%"} padding={"0.5rem"}>
+    <Stack
+      onClick={handleEditArticle}
+      spacing={2}
+      width={"100%"}
+      height={"100%"}
+      padding={"0.5rem"}
+    >
       <Stack direction={"row"} justifyContent={"space-between"}>
         <Text
           isTruncated

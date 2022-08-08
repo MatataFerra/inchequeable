@@ -10,14 +10,6 @@ type JsonResponse = {
 };
 
 export default async function giveLike(req: NextApiRequest, res: NextApiResponse<JsonResponse>) {
-  if (req.method !== "PUT") {
-    return res.status(405).json({
-      message: "Method not allowed",
-      ok: false,
-      data: null,
-    });
-  }
-
   if (req.method === "PUT") {
     const id = req.query.id;
 
@@ -45,4 +37,10 @@ export default async function giveLike(req: NextApiRequest, res: NextApiResponse
       data: oneArticle,
     });
   }
+
+  return res.status(405).json({
+    message: "Method not allowed",
+    ok: false,
+    data: null,
+  });
 }

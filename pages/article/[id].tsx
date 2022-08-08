@@ -157,6 +157,7 @@ const OneArticlePage: NextPage<Props> = ({
 
   const handleLike = async () => {
     if (!userLikedArticle) {
+      handleColorOfHeart();
       const options = {
         method: "PUT",
         headers: {
@@ -170,13 +171,17 @@ const OneArticlePage: NextPage<Props> = ({
         const id: string = articleLike.data._id;
         const ipRegister = await userHasBeenLided(ipv4, country, region, id);
 
-        handleColorOfHeart();
-
         if (ipRegister) {
           setUserLikedArticle(true);
         }
+
+        return;
       }
+
+      handleColorOfHeart();
     }
+
+    return;
   };
 
   return (

@@ -25,6 +25,12 @@ export const options = {
       text: "Estadísticas",
     },
   },
+
+  elements: {
+    bar: {
+      barThickness: "10px",
+    },
+  },
 };
 
 interface Props {

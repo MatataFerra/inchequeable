@@ -24,6 +24,7 @@ export const CardsAdmin: FC<Props> = ({ order, title, subtitle, author, content,
       boxShadow={show ? "0 10px 25px rgba(63, 19, 19, 0.1)" : "0 0 0 0"}
       alignItems={"baseline"}
       backgroundColor={show ? "#fff" : "#a0a0a03c"}
+      _hover={{ cursor: "pointer", backgroundColor: show && "gray.100" }}
     >
       <ModalCards
         isOpen={isOpen}

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Image } from "@chakra-ui/react";
+import NextImage from "next/image";
 
 import Title from "../../home/components/Title";
 import { Login } from "../../admin/components/Login";
@@ -9,12 +9,9 @@ export const LoginPage: FC = () => {
   return (
     <main className={styles.main}>
       <Title />
-      <Image
-        src="/drunk_boy.svg"
-        alt="portrait"
-        display={{ lg: "none", md: "block" }}
-        className={styles.adminImg}
-      />
+      <div className={styles.adminImgContainer}>
+        <NextImage src="/drunk_boy.svg" alt="portrait" className={styles.adminImg} layout="fill" />
+      </div>
       <Login />
     </main>
   );

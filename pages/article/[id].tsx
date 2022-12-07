@@ -188,7 +188,7 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
             backgroundImage={image ? image : `url("/typing_boy.svg")`}
             backgroundRepeat={"no-repeat"}
             filter={"opacity(0.5)"}
-            backgroundSize={"contain"}
+            backgroundSize={"90% 50%"}
             display={{ lg: "block", base: "none" }}
             backgroundPosition={"center"}
           />

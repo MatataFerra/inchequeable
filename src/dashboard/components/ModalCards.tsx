@@ -17,9 +17,18 @@ type Props = {
   subtitle: string;
   author: string;
   content: string;
+  image: string;
 };
 
-export const ModalCards: FC<Props> = ({ isOpen, onClose, title, subtitle, author, content }) => {
+export const ModalCards: FC<Props> = ({
+  isOpen,
+  onClose,
+  title,
+  subtitle,
+  author,
+  content,
+  image,
+}) => {
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -35,6 +44,7 @@ export const ModalCards: FC<Props> = ({ isOpen, onClose, title, subtitle, author
               title={title}
               subtitle={subtitle}
               author={author}
+              image={image}
               withModal={false}
             />
           </ModalBody>

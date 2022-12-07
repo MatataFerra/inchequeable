@@ -11,10 +11,20 @@ type Props = {
   order: number;
   author: string;
   content: string;
+  image: string;
   show?: boolean;
 };
 
-export const CardsAdmin: FC<Props> = ({ order, title, subtitle, author, content, _id, show }) => {
+export const CardsAdmin: FC<Props> = ({
+  order,
+  title,
+  subtitle,
+  author,
+  content,
+  _id,
+  image,
+  show,
+}) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
 
   return (
@@ -33,6 +43,7 @@ export const CardsAdmin: FC<Props> = ({ order, title, subtitle, author, content,
         subtitle={subtitle}
         author={author}
         content={content}
+        image={image}
       />
 
       <Text color={show ? "#1C222E" : "#1c222e2d"}> {order}. </Text>
@@ -40,6 +51,7 @@ export const CardsAdmin: FC<Props> = ({ order, title, subtitle, author, content,
         withContent={false}
         withIcons
         author={author}
+        image={image}
         title={title}
         subtitle={subtitle}
         show={show}

@@ -1,5 +1,6 @@
 export interface Card_Props {
   author: string;
+  image?: string;
   content: string;
   subtitle: string;
   createdAt: string;

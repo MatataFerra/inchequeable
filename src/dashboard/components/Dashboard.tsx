@@ -51,6 +51,7 @@ export const DashboardScreen: FC = () => {
                     author={article.author}
                     subtitle={article.subtitle}
                     content={article.content}
+                    image={article.image ?? "/drinking_coffee.svg"}
                     show={article.show}
                     order={index + 1}
                   />

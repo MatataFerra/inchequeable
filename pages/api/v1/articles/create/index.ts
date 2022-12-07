@@ -12,9 +12,13 @@ type JsonResponse = {
   data: unknown;
 };
 
+type Data = {
+  message: string;
+};
+
 export default async function createArticles(
   req: NextApiRequest,
-  res: NextApiResponse<JsonResponse>,
+  res: NextApiResponse<JsonResponse | Data>,
 ) {
   return new Promise(async (resolve) => {
     if (req.method !== "POST") {
@@ -26,7 +30,7 @@ export default async function createArticles(
     }
 
     if (req.method === "POST") {
-      const { title, subtitle, content, author, link } = req.body;
+      const { title, subtitle, content, author, link, image } = req.body;
       const token = req?.headers?.authorization?.split(" ")[1] as string;
 
       const checkToken = (await validateClientJwt(token)) as DataResponse;
@@ -48,6 +52,7 @@ export default async function createArticles(
         content,
         author,
         link,
+        image,
       });
 
       await newArticle

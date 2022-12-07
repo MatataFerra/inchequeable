@@ -37,6 +37,10 @@ const ArticleSchema = new Schema({
     type: Number,
     default: 0,
   },
+
+  image: {
+    type: String,
+  },
 });
 
 export default mongoose.models.Article || mongoose.model("Article", ArticleSchema);

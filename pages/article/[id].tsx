@@ -40,8 +40,8 @@ interface Props {
   title: string;
   content: string;
   link: string;
+  image: string;
   createdAt: string;
-  randomNumberToChangeBG: number;
 }
 
 type ResponseArticles = {
@@ -50,15 +50,7 @@ type ResponseArticles = {
   data: Card_Props[];
 };
 
-const OneArticlePage: NextPage<Props> = ({
-  id,
-  title,
-  content,
-  link,
-  createdAt,
-  _id,
-  randomNumberToChangeBG,
-}) => {
+const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, image, _id }) => {
   const router = useRouter();
   const [ipv4, country, region] = useIpUser();
   const [userLikedArticle, setUserLikedArticle] = useState(false);
@@ -193,14 +185,10 @@ const OneArticlePage: NextPage<Props> = ({
           alignContent={"center"}
         >
           <GridItem
-            backgroundImage={
-              randomNumberToChangeBG % 2 === 0
-                ? `url("/typing_boy.svg")`
-                : `url("/drinking_coffee.svg")`
-            }
+            backgroundImage={image ? image : `url("/typing_boy.svg")`}
             backgroundRepeat={"no-repeat"}
             filter={"opacity(0.5)"}
-            backgroundSize={"contain"}
+            backgroundSize={"90% 50%"}
             display={{ lg: "block", base: "none" }}
             backgroundPosition={"center"}
           />
@@ -314,8 +302,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       return { props: { id: null } };
     }
 
-    const randomNumber = Math.floor(Math.random() * 10);
-
     return {
       props: {
         id: true,
@@ -323,8 +309,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         title: article.title,
         content: article.content,
         link: article.link,
+        image: article.image ?? null,
         createdAt: article.createdAt.toString(),
-        randomNumberToChangeBG: Math.abs(randomNumber),
       },
 
       revalidate: 1,

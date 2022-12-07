@@ -18,6 +18,7 @@ const CreateArticle: NextPage = () => {
     content: "",
     link: "",
     author: "",
+    image: "",
   });
 
   useEffect(() => {
@@ -58,6 +59,43 @@ const CreateArticle: NextPage = () => {
     const { name, value } = e.target;
 
     setUpdateArticle({ ...updateArticle, [name]: value });
+  };
+
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const { target } = e;
+
+    if (!target.files || target.files.length === 0) return;
+
+    for (let i = 0; i < target.files.length; i++) {
+      const formData = new FormData();
+
+      formData.append("file", target.files[i]);
+      formData.append("upload_preset", "inchequeable");
+
+      const options = {
+        method: "POST",
+        body: formData,
+      };
+
+      try {
+        const response = await fetchData(
+          `https://api.cloudinary.com/v1_1/docq8rbdu/image/upload`,
+          options,
+        );
+
+        const { secure_url } = await response;
+
+        setUpdateArticle({ ...updateArticle, image: secure_url });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "No se pudo subir la imagen, intente nuevamente",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    }
   };
 
   const handleUpdate = async () => {
@@ -151,12 +189,24 @@ const CreateArticle: NextPage = () => {
         >
           <Textarea
             minHeight={"10rem"}
-            height={"15rem"}
+            height={"100%"}
             marginBottom={"1rem !important"}
             resize={"none"}
             name="content"
             value={updateArticle.content}
             onChange={handleInputChange}
+          />
+        </Stack>
+
+        <Stack direction={"row"} alignItems={"center"}>
+          <Text as="label">Imagen:</Text>
+          <Input
+            className="input-file"
+            name="image"
+            width={"100%"}
+            type="file"
+            accept={"image/*"}
+            onChange={handleImageChange}
           />
         </Stack>
 

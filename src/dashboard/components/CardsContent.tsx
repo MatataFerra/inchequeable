@@ -1,8 +1,9 @@
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { Button, Divider, HStack, Stack, Text, Tooltip, useToast } from "@chakra-ui/react";
+import { Box, Button, Divider, HStack, Stack, Text, Tooltip, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import { getCookie } from "cookies-next";
+import NextImage from "next/image";
 
 import { fetchData } from "../../helpers/fetchData";
 
@@ -12,6 +13,7 @@ type Props = {
   title?: string;
   subtitle?: string;
   content?: string;
+  image: string;
   author?: string;
   _id?: string | number;
   withIcons: boolean;
@@ -26,6 +28,7 @@ export const CardContent: FC<Props> = ({
   subtitle,
   author,
   content,
+  image,
   withIcons,
   withContent,
   withModal,
@@ -91,13 +94,7 @@ export const CardContent: FC<Props> = ({
   };
 
   return (
-    <Stack
-      onClick={handleEditArticle}
-      spacing={2}
-      width={"100%"}
-      height={"100%"}
-      padding={"0.5rem"}
-    >
+    <Stack spacing={2} width={"100%"} height={"100%"} padding={"0.5rem"}>
       <Stack direction={"row"} justifyContent={"space-between"}>
         <Text
           isTruncated
@@ -149,9 +146,16 @@ export const CardContent: FC<Props> = ({
       )}
 
       {withContent && (
-        <Stack fontSize={14} padding={4} overflowY={"scroll"} minHeight={"100%"} height={"15rem"}>
-          <Divider /> <Text noOfLines={8}>{content}</Text>
-        </Stack>
+        <>
+          <Stack fontSize={14} padding={4} overflowY={"scroll"} minHeight={"100%"} height={"20rem"}>
+            <Divider />
+            <Text noOfLines={8}>{content}</Text>
+            <Divider />
+            <Box zIndex={-1} height="15rem" position="relative">
+              <NextImage alt={title} loading="lazy" src={image} layout="fill" />
+            </Box>
+          </Stack>
+        </>
       )}
     </Stack>
   );

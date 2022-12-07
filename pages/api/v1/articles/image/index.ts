@@ -4,6 +4,8 @@ import formidable from "formidable";
 
 cloudinary.config(process.env.CLOUDINARY_URL || "");
 
+// TODO: Implement API for upload images to cloudinary
+
 type Data = {
   message: string;
 };

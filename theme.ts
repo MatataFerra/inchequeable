@@ -5,6 +5,7 @@ export default extendTheme({
     primary: theme.colors.gray,
     secondary: theme.colors.blue,
     error: theme.colors.red,
+    cards: theme.colors.messenger,
 
     buttons: {
       50: "#ffe2ec",

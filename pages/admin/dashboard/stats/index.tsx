@@ -1,13 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Grid, HStack, Stack, Text, VStack } from "@chakra-ui/react";
+import { Grid, GridItem, HStack, Stack } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 import { Bar, Pie } from "react-chartjs-2";
+import { GetServerSideProps } from "next";
 
 import { Charts } from "../../../../src/dashboard/components/Charts";
 import { SideBar } from "../../../../src/dashboard/components/SideBar";
 import { getRandomColor } from "../../../../src/helpers/randomizeColor";
+import { InfoCard } from "../../../../src/dashboard/components/InfoCard";
+import Article from "../../../../src/models/Article";
+import { connectDBWithoutRes } from "../../../../mongo/client";
+import IpUsers from "../../../../src/models/IpUsers";
 
 type DataFromServer = {
   _id: string;
@@ -28,13 +33,20 @@ type IpFromServer = {
   ipv4: string;
 };
 
-const ChartsScreen: NextPage = () => {
+interface Props {
+  posts: number | string;
+  likes: number | string;
+  country: string;
+}
+
+const ChartsScreen: NextPage<Props> = ({ posts, likes, country }) => {
   const token = getCookie("token");
 
   const [labels, setLabels] = useState<string[]>([]);
   const [ipLabels, setipLabels] = useState<string[]>([]);
   const [ipData, setIpData] = useState<any>([]);
   const [data, setData] = useState<any>([]);
+  const [likesLoaded, setLikesLoaded] = useState(false);
 
   useEffect(() => {
     const op = {
@@ -68,16 +80,25 @@ const ChartsScreen: NextPage = () => {
       },
     };
 
+    if (likesLoaded) return;
+
     fetch("/api/v1/stats/likes", op)
       .then((res) => res.json())
-      .then((res: DataResponse<DataFromServer>) => setData(res.data))
+      .then((res: DataResponse<DataFromServer>) => {
+        setData(res.data);
+        setLikesLoaded(true);
+      })
       .catch((err) => console.log(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   useEffect(() => {
+    if (likesLoaded) return;
+
     data?.map((item: any) => {
       return setLabels((labels) => [...labels, item.title.slice(0, 15).concat("...")]);
     }) ?? [];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (
@@ -85,11 +106,20 @@ const ChartsScreen: NextPage = () => {
       <SideBar />
       <Stack width={"100%"}>
         <Stack direction={"column"} height="100vh">
-          <Grid width={"100%"} height="100%">
-            <VStack alignSelf={"center"}>
-              <Text fontSize={"1.5rem"}>Estadísitcas sobre los post</Text>
-            </VStack>
-            <Stack direction={"row"} justifyContent={"space-around"} flexWrap="wrap">
+          <Grid
+            rowGap={8}
+            gridTemplateRows={"repeat(2, 1fr)"}
+            width={"100%"}
+            height="100%"
+            gap={8}
+            p={4}
+          >
+            <GridItem display="flex" gridGap={4}>
+              <InfoCard title="Cantidad de post" data={posts} />
+              <InfoCard title="Cantidad de likes" data={likes} />
+              <InfoCard title="País con más Likes" data={country} />
+            </GridItem>
+            <GridItem display="flex" justifyContent="center" gridGap={4}>
               <Charts
                 data={{
                   labels: labels,
@@ -117,12 +147,44 @@ const ChartsScreen: NextPage = () => {
                 }}
                 Chart={Bar}
               />
-            </Stack>
+            </GridItem>
           </Grid>
         </Stack>
       </Stack>
     </HStack>
   );
+};
+
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  connectDBWithoutRes(process.env.MONGO_URI);
+
+  type Country = {
+    [key: string]: number;
+  };
+
+  const articles = await Article.find({});
+  const ips = await IpUsers.find({});
+  const posts = articles.length;
+  const likes = articles.map((a) => a.likes).reduce((a, b) => a + b, 0);
+  const country: Country = ips.reduce((acc: any, item: any) => {
+    acc[item.country] = (acc[item.country] ?? 0) + 1;
+
+    return acc;
+  }, {});
+
+  const max = Object.values(country).reduce((a, b) => Math.max(a, b));
+  const countryWithMostLikes = Object.keys(country).find((key) => country[key] === max);
+
+  return {
+    props: {
+      posts,
+      likes,
+      country: countryWithMostLikes,
+    },
+  };
 };
 
 export default ChartsScreen;

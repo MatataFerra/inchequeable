@@ -10,7 +10,9 @@ import {
   ArcElement,
 } from "chart.js";
 import { Bar, Pie } from "react-chartjs-2";
-import { Box, HStack } from "@chakra-ui/react";
+import { HStack } from "@chakra-ui/react";
+
+import { BoxShadow } from "./BoxShadow";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
@@ -49,9 +51,9 @@ interface Props {
 export const Charts: FC<Props> = ({ data, Chart }) => {
   return (
     <HStack>
-      <Box>
+      <BoxShadow p={8}>
         <Chart options={options} height={350} width={362} data={data} />
-      </Box>
+      </BoxShadow>
     </HStack>
   );
 };

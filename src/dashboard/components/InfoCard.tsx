@@ -17,6 +17,7 @@ export const InfoCard: FC<Props> = ({ title, data }) => {
       display="flex"
       flexDirection="column"
       justifyContent="center"
+      h={{ base: "200px", md: "100%" }}
     >
       <Text
         fontSize={{ base: "2rem", md: "2.5rem" }}

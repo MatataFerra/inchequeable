@@ -104,22 +104,32 @@ const ChartsScreen: NextPage<Props> = ({ posts, likes, country }) => {
   return (
     <HStack>
       <SideBar />
-      <Stack width={"100%"}>
-        <Stack direction={"column"} height="100vh">
+      <Stack width={"100%"} marginInlineStart={{ base: "0!important", md: 0.5 }}>
+        <Stack direction={"column"} height="100vh" overflow="scroll">
           <Grid
             rowGap={8}
-            gridTemplateRows={"repeat(2, 1fr)"}
-            width={"100%"}
+            gridTemplateRows={{ base: "1fr", md: "repeat(2, 1fr)" }}
+            width="100%"
             height="100%"
             gap={8}
             p={4}
           >
-            <GridItem display="flex" gridGap={4}>
+            <GridItem
+              display="flex"
+              gridGap={4}
+              p={8}
+              flexDirection={{ md: "row", base: "column" }}
+            >
               <InfoCard title="Cantidad de post" data={posts} />
               <InfoCard title="Cantidad de likes" data={likes} />
               <InfoCard title="País con más Likes" data={country} />
             </GridItem>
-            <GridItem display="flex" justifyContent="center" gridGap={4}>
+            <GridItem
+              display="flex"
+              justifyContent="center"
+              gridGap={4}
+              flexDirection={{ base: "column", md: "row" }}
+            >
               <Charts
                 data={{
                   labels: labels,

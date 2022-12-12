@@ -21,7 +21,9 @@ export default async function updateArticles(
     const ipUser = await IpUsers.findById(id);
 
     if (ipUser) {
-      ipUser.article.push(req.body.article);
+      const article = { articleId: req.body.article };
+
+      ipUser.article.push(article);
       await ipUser.save();
     }
 

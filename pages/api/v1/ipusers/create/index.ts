@@ -30,7 +30,7 @@ export default async function createIpUser(
       ipv4,
       country,
       region,
-      article,
+      article: [{ articleId: article }],
     });
 
     await ipRegister.save().then((ipUser: unknown) => {

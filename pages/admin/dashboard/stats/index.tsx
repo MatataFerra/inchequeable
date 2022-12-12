@@ -85,6 +85,7 @@ const ChartsScreen: NextPage<Props> = ({ posts, likes, country }) => {
     fetch("/api/v1/stats/likes", op)
       .then((res) => res.json())
       .then((res: DataResponse<DataFromServer>) => {
+        console.log({ likes: res.data });
         setData(res.data);
         setLikesLoaded(true);
       })
@@ -106,14 +107,7 @@ const ChartsScreen: NextPage<Props> = ({ posts, likes, country }) => {
       <SideBar />
       <Stack width={"100%"} marginInlineStart={{ base: "0!important", md: 0.5 }}>
         <Stack direction={"column"} height="100vh" overflow="scroll">
-          <Grid
-            rowGap={8}
-            gridTemplateRows={{ base: "1fr", md: "repeat(2, 1fr)" }}
-            width="100%"
-            height="100%"
-            gap={8}
-            p={4}
-          >
+          <Grid rowGap={8} gridTemplateRows={{ base: "1fr", md: "40% 1fr" }} gap={8} p={4}>
             <GridItem
               display="flex"
               gridGap={4}

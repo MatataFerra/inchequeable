@@ -1,5 +1,14 @@
 import mongoose, { Schema } from "mongoose";
 
+const ArticlesLiked = new Schema({
+  articleId: { type: Schema.Types.ObjectId, ref: "Article" },
+
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
 const IpUsersSchema = new Schema({
   ipv4: {
     type: String,
@@ -14,7 +23,7 @@ const IpUsersSchema = new Schema({
   },
 
   article: {
-    type: [{ type: Schema.Types.ObjectId, ref: "Article" }],
+    type: [ArticlesLiked],
   },
 });
 

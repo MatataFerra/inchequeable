@@ -85,7 +85,6 @@ const ChartsScreen: NextPage<Props> = ({ posts, likes, country }) => {
     fetch("/api/v1/stats/likes", op)
       .then((res) => res.json())
       .then((res: DataResponse<DataFromServer>) => {
-        console.log({ likes: res.data });
         setData(res.data);
         setLikesLoaded(true);
       })

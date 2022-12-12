@@ -48,12 +48,10 @@ interface Props {
   Chart: typeof Pie | typeof Bar;
 }
 
-export const Charts: FC<Props> = ({ data, Chart }) => {
-  return (
-    <HStack>
-      <BoxShadow p={8}>
-        <Chart options={options} height={350} width={362} data={data} />
-      </BoxShadow>
-    </HStack>
-  );
-};
+export const Charts: FC<Props> = ({ data, Chart }) => (
+  <HStack>
+    <BoxShadow p={8} width="100%">
+      <Chart options={options} height={400} width={362} data={data} />
+    </BoxShadow>
+  </HStack>
+);

@@ -3,22 +3,13 @@ import { IconButton, Tooltip } from "@chakra-ui/react";
 import { FC } from "react";
 
 interface IconTooltipProps {
-  gridColumn: string;
   width: string;
   height: string;
-  alignSelf: string;
-  justifySelf: string;
-  margin: string;
   tooltipMessage: string;
   onClick?: () => void;
 }
 
-export const IconTooltiped: FC<IconTooltipProps> = ({
-  gridColumn,
-  tooltipMessage,
-  onClick,
-  ...props
-}) => (
+export const IconTooltiped: FC<IconTooltipProps> = ({ tooltipMessage, onClick, ...props }) => (
   <Tooltip label={tooltipMessage} aria-label="A tooltip">
     <IconButton
       aria-label={tooltipMessage}
@@ -26,7 +17,6 @@ export const IconTooltiped: FC<IconTooltipProps> = ({
       size="sm"
       isRound
       variant="ghost"
-      gridColumn={gridColumn}
       onClick={onClick}
       {...props}
     />

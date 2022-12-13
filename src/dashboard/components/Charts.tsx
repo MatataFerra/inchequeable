@@ -50,8 +50,8 @@ interface Props {
 
 export const Charts: FC<Props> = ({ data, Chart }) => (
   <HStack>
-    <BoxShadow p={8} width="100%">
-      <Chart options={options} height={400} width={362} data={data} />
+    <BoxShadow p={{ base: 0, md: 8 }} width="100%">
+      <Chart options={options} height={350} width={280} data={data} />
     </BoxShadow>
   </HStack>
 );

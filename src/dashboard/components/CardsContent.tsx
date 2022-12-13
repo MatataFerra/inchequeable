@@ -96,12 +96,7 @@ export const CardContent: FC<Props> = ({
   return (
     <Stack spacing={2} width={"100%"} height={"100%"} padding={"0.5rem"}>
       <Stack direction={"row"} justifyContent={"space-between"}>
-        <Text
-          isTruncated
-          whiteSpace={"break-spaces"}
-          fontSize={{ lg: 20, sm: 16 }}
-          color={"buttons.400"}
-        >
+        <Text whiteSpace={"break-spaces"} fontSize={{ lg: 20, sm: 16 }} color={"buttons.400"}>
           {title}
         </Text>
         {withIcons && (
@@ -125,13 +120,13 @@ export const CardContent: FC<Props> = ({
           </>
         )}
       </Stack>
-      <Text isTruncated fontSize={12} fontStyle={"italic"} whiteSpace={"break-spaces"}>
+      <Text fontSize={12} fontStyle={"italic"} whiteSpace={"break-spaces"}>
         {subtitle}
       </Text>
 
       {withModal ? (
         <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
-          <Text isTruncated fontStyle={"italic"} color={"secondary.500"} fontSize={12}>
+          <Text fontStyle={"italic"} color={"secondary.500"} fontSize={12}>
             creador/a: {author}
           </Text>
 
@@ -140,7 +135,7 @@ export const CardContent: FC<Props> = ({
           </Button>
         </Stack>
       ) : (
-        <Text isTruncated fontStyle={"italic"} color={"secondary.500"} fontSize={12}>
+        <Text fontStyle={"italic"} color={"secondary.500"} fontSize={12}>
           creador/a: {author}
         </Text>
       )}

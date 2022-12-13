@@ -212,7 +212,6 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
                     marginLeft={2}
                     target={"_blank"}
                     fontStyle={"italic"}
-                    isTruncated
                   >
                     Click para ir a la fuente
                   </Link>

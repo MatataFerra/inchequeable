@@ -187,8 +187,8 @@ const OneArticlePage: NextPage<Props> = ({ id, title, content, link, createdAt, 
           <GridItem
             backgroundImage={image ? image : `url("/typing_boy.svg")`}
             backgroundRepeat={"no-repeat"}
-            filter={"opacity(0.5)"}
-            backgroundSize={"90% 50%"}
+            filter={"opacity(0.8)"}
+            backgroundSize={"90% 100%"}
             display={{ lg: "block", base: "none" }}
             backgroundPosition={"center"}
           />
